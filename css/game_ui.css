@@ -1,0 +1,232 @@
+:root {
+  --tealish: #1b9aac;
+  --aqua-blue: #2ec7d7;
+  --lightblue: #77cfdf;
+  --robin-s-egg: #66e9f7;
+  --periwinkle: #a087ff;
+  --robin-s-egg-blue: #92ebff;
+  --lavender: #ba9bf5;
+  --sky: #7bc3fe;
+  --background: #396dc1;
+}
+
+@import url("https://fonts.googleapis.com/css?family=Hind:300,400,500,600,700");
+html, body {
+  background-color: var(--background);
+  color: white;
+  font-family: "Hind", sans-serif;
+}
+
+#app {
+  margin-top: 30px;
+}
+
+.container-button {
+  padding: 40px;
+  padding-bottom: 30px;
+}
+
+.container-seq {
+
+}
+
+[class^='col'] {
+  padding: 0;
+}
+
+.music-block {
+  flex-grow: 0;
+  font-style: 0;
+  padding-bottom: 100%;
+  position: relative;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.seq-block {
+  /*width: 89px;
+  height: 89px;*/
+  border: solid 1px var(--aqua-blue);
+  background-color: #162c56;
+  padding-bottom: 100%;
+  position: relative;
+  display: flex;
+  flex-grow: 0;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.seq-row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+
+@media screen and (min-width: 600px) {
+  .music-block {
+    flex: 20vw;
+    /*height: 20vw;*/
+  }
+}
+.music-block.small .content {
+  min-height: 250px;
+  padding-bottom: 0;
+}
+.music-block.small .content .text {
+  font-size: 8vmin;
+}
+
+@media screen and (max-width: 600px) {
+  .music-block.small .content {
+    background-color: red;
+    min-height: 50px;
+    height: 12vw;
+  }
+}
+.music-block .content {
+  border-radius: 5px;
+  border: solid 3px var(--aqua-blue);
+  
+  width: 100%;
+  height: 100%;
+  padding-bottom: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.music-block .content:active, .music-block .content.active {
+  transition: 0s;
+  background-color: var(--aqua-blue);
+  color: black;
+}
+.music-block .content span.text {
+  font-size: 8vmin;
+  font-weight: 900;
+  position: absolute;
+  left: 10%;
+  top: 0px;
+  text-shadow: -1px -1px 0 #FFF936, 1px -1px 0 #FFF936, -1px 1px 0 #FFF936, 1px 1px 0 #FFF936;
+  color: #111;
+}
+.music-block .content img {
+  width: 90%;
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.seq-block img {
+  width: 90%;
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.control-panel {
+  padding: 10px;
+  /*height: 100%;*/
+  /*width: 100%;*/
+  /*height: 52px;*/
+  height: 15vw;
+  background-color: var(--aqua-blue);
+  position: absolute;
+  bottom: 0px;
+  flex-grow: 1;
+}
+
+.control-panel .row{
+  height: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.control-panel .row img{
+
+}
+
+.control-panel .row div{
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel-style {
+  background-color: #19baca;
+}
+
+.panel-send {
+  width: 92px;
+  height: 37px;
+  border-radius: 3px;
+  border: solid 1px #ffffff;
+  background-image: linear-gradient(to right, #756ded, var(--lightblue));
+}
+
+.tri-left {
+  margin-right: 13px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6.5px 6px 6.5px 0;
+  border-color: transparent white transparent transparent;
+}
+
+.tri-right {
+  margin-left: 13px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6.5px 0 6.5px 6px;
+  border-color: transparent transparent transparent white;
+}
+
+.seq-in {
+  background-color: #396dc1;
+}
+
+.seq-play {
+  background-color: var(--robin-s-egg);
+}
+
+.text {
+  font-family: Montserrat;
+  font-size: 12px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 1px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.keyboard {
+  display: flex;
+}
+@media screen and (max-width: 700px) {
+  .keyboard {
+    flex-direction: column;
+  }
+}
+.keyboard > div {
+  flex: 1;
+}

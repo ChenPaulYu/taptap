@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>taptap game</title>
+
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	<link rel="stylesheet" href="css/animsition.min.css">
+	<link rel="stylesheet" href="css/animate.css">
+	<link rel="stylesheet" href="css/pe-icon-7-stroke.css">
+	<link rel="stylesheet" href="css/jquery.fancybox.min.css">
+	<link rel="stylesheet" href="css/swiper3.css">
+	<link rel="stylesheet" href="css/simple-line-icons.css">
+	<link rel="stylesheet" href="css/ionicons.min.css">
+	<link rel="stylesheet" href="css/slick.css">
+	<link rel="stylesheet" href="css/style.min.css">
+	<link rel="stylesheet" href="css/menu.css">
+	<link rel="stylesheet" href="css/style-child-theme.min.css">
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css'>
+	<link rel="stylesheet" href="css/game_ui.css">
+
+
+	<!-- <link rel="stylesheet" href="css/animate_banner.min.css"> -->
+</head>
+<body class="enable_sound enable_sound_mob">
+<!-- MAIN_WRAPPER -->
+<div class="spinner-preloader-wrap">
+	<div class="cssload-container">
+		<div class="cssload-whirlpool"></div>
+	</div>
+</div>
+
+<div class="main-wrapper" data-sound="audio/" data-top="992">
+	<div class="header_top_bg  header_trans-fixed menu_light_text" style="padding-bottom: 0;">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
+					<!-- HEADER -->
+					<header class="right-menu left ">
+						<!-- LOGO -->
+						<a href="index.html" class="logo">
+							<img src="img/logo-1-1.png" alt="Awa" class="main-logo">
+							<img src="img/logo.png" alt="Awa" class="logo-hover">
+							<img src="img/logo-1-1.png" alt="Awa" class="main-logo logo-mobile">
+						</a>
+						<!-- /LOGO -->
+						<!-- MOB MENU ICON -->
+						<a href="#" class="mob-nav">
+							<div class="hamburger">
+								<span class="line"></span>
+								<span class="line"></span>
+								<span class="line"></span>
+							</div>
+						</a>
+						<!-- /MOB MENU ICON -->
+
+
+						<!-- ASIDE MENU ICON -->
+						<a href="#" class="aside-nav">
+							<span class="aside-nav-line line-1"></span>
+							<span class="aside-nav-line line-2"></span>
+							<span class="aside-nav-line line-3"></span>
+						</a>
+						<!-- /ASIDE MOB MENU ICON -->
+
+						<!-- NAVIGATION -->
+						<nav id="topmenu" class="topmenu ">
+							<a href="#" class="mob-nav-close">
+								<span>close</span>
+								<div class="hamburger">
+									<span class="line"></span>
+									<span class="line"></span>
+								</div>
+							</a>
+							<ul class="menu">
+								<li class="menu-item">
+									<a href="#">home</a>
+								</li>
+								<li id="menu-item-9"
+								    class="menu-item current-menu-ancestor">
+									<a href="#">Game</a>
+								</li>
+									</ul>
+								</li>
+							</ul>
+							
+						</nav>
+					</header>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="app">
+		<!-- <div class="loading fadeOut animated delay-ani-50"><img class="fadeIn animated delay-ani-10" src="https://monoame.com/aramono/img/title-01.svg"/></div> -->
+		<div class="container-button container-fluid fadeIn">
+			<div class="row" :key="1">
+				<div class="col-4 col-sm-3 col-lg-2 fadeIn animated" v-for="i in 12">
+				    <div class="music-block">
+				    	<div class="content" @click="selectMusic(i);" :data-object-id="i"><img :src="'https://monoame.com/aramono/img/ara_obj-'+i+'.svg'"/></div>
+				    </div>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-3" v-for="i in 4">
+					<div class="row seq-row">
+						<musicComp :seq="j" :on="nowPlayOrder==(i-1)*4+ind" v-for="(j,ind) in musicOrder.slice((i-1)*4,i*4)" ></musicComp>
+					</div>
+				</div>
+			</div>	
+		</div>
+		<div class="container-fluid control-panel">
+			<div class="row">
+				<div class="col-5 panel-style">
+					<span class="tri-left"></span>
+					<span class="text">STYLE 1</span>
+					<span class="tri-right"></span>
+				</div>
+				<div class="col-2" @click="clearMusic()">
+					<img src="./img/game/rotate-ccw.png" 
+						srcset="img/game/rotate-ccw@2x.png 2x,
+             					img/game/rotate-ccw@3x.png 3x"/>
+				</div>
+				<div class="col-2" @click="play()">
+					<img src="./img/game/triangle-copy-2.png"/>
+				</div>
+				<div class="col-3 panel-send" @click="sendOsc()">
+					<span class="text">SEND</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.8.9/Tone.js"></script>
+<!-- 
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script> -->
+<script src="js/jquery.min.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="js/lib/modernizr-2.6.2.min.js"></script>
+<script src="js/lib/scripts.js"></script>
+<script src="js/jquery.countdown.min.js"></script>
+<script src="js/foxlazy.js"></script>
+<script src="js/jquery.easings.min.js"></script>
+<script src="js/jquery.multiscroll.min.js"></script>
+<script src="js/magnific.js"></script>
+<script src="js/TweenMax.min.js"></script>
+<script src="js/equalHeightsPlugin.js"></script>
+<script src="js/jquery.fancybox.min.js"></script>
+<script src="js/jquery.fitvids.js"></script>
+<script src="js/swiper3.js"></script>
+<script src="js/imagesloaded.pkgd.min.js"></script>
+<script src="js/fragment.js"></script>
+<script src="js/scrollMonitor.js"></script>
+<script src="js/slider-transition.js"></script>
+<script src="js/slick.js"></script>
+<script src="js/jquery.sliphover.min.js"></script>
+<script src="js/pixi.min.js"></script>
+<script src="js/script.js"></script>
+<script src="js/game_ui.js"></script>
+
+<script src="js/anime.min.js"></script>
+<script src="js/animate_banner.js"></script>
+
+
+
+</body>
+</html>
