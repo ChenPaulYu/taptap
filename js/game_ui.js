@@ -10,18 +10,18 @@ var vm = new Vue({
     soundDir: './sound/new_sample/',
     bgFile: 'sasa.mp3',
     soundFile: [
-      '0.mp3', 
-      '1.mp3', 
-      '2.mp3', 
-      '3.mp3', 
-      '4.mp3',
-      '5.mp3',
-      '6.mp3',
-      '7.mp3',
-      '8.mp3',
-      '9.mp3',
-      '10.mp3',
-      '11.mp3'],
+      '0.wav', 
+      '1.wav',
+      '2.wav',
+      '3.wav',
+      '4.wav',
+      '5.wav',
+      '6.wav',
+      '7.wav',
+      '8.wav',
+      '9.wav',
+      '10.wav',
+      '11.wav'],
       soundPlayer: [],
       bgPlayer: null
   },
@@ -35,7 +35,7 @@ var vm = new Vue({
     }
 
     Tone.Transport.bpm.value = 76
-    Tone.Transport.scheduleRepeat(this.repeat, '4n');
+    Tone.Transport.scheduleRepeat(this.repeat, '2n');
     // Tone.Transport.scheduleRepeat(this.background, '4n');
 
   },
