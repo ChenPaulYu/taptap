@@ -1,3 +1,3 @@
 ### [Taptap](https://paulyuchen.com/taptap)
-### [Taptap](https://paulyuchen.com/taptap/patatap.html)
+### [Patatap](https://paulyuchen.com/taptap/patatap.html)
 
