@@ -1,15 +1,73 @@
 $(function() {
 
+  var musicOrder;
+  var nowPlayOrder;
+  var maxOrder = 16;
+  var soundDir= './sound/2bar_sample/';
+  var bgFile= 'sasa.mp3';
+  var soundFile= [
+        '2bar1-巴拉巴拉巴拉.mp3', 
+        '2bar2-巴拉巴拉巴拉.mp3', 
+        '2bar3-巴拉巴拉巴拉.mp3', 
+        '2bar4-巴拉巴拉巴拉.mp3', 
+        '2bar5-巴拉巴拉巴拉.mp3',
+        '2bar6-巴拉巴拉巴拉.mp3',
+        '2bar7-巴拉巴拉巴拉.mp3',
+        '2bar8-巴拉巴拉巴拉.mp3',
+        '2bar1-巴拉巴拉巴拉.mp3', 
+        '2bar2-巴拉巴拉巴拉.mp3', 
+        '2bar3-巴拉巴拉巴拉.mp3', 
+        '2bar4-巴拉巴拉巴拉.mp3', 
+        '2bar5-巴拉巴拉巴拉.mp3',
+        '2bar6-巴拉巴拉巴拉.mp3',
+        '2bar7-巴拉巴拉巴拉.mp3',
+        '2bar8-巴拉巴拉巴拉.mp3'];
+  var soundPlayer= [];
+  var bgPlayer= null;
+
+  function initSequencer() {
+    bgPlayer = new Tone.Player(soundDir + bgFile).toMaster()
+
+    for (var i=0; i<maxOrder; i++) {
+      soundPlayer[i] = new Tone.Player(soundDir + soundFile[i]).toMaster()
+    }
+
+    Tone.Transport.bpm.value = 76
+    Tone.Transport.scheduleRepeat(repeat, '2n');
+    Tone.Transport.scheduleRepeat(background, '4n');
+  }
+
+  function startSequencer() {
+    nowPlayOrder = -1;
+    Tone.Transport.start();
+  }
+
+  function repeat(time) {
+    nowPlayOrder = (nowPlayOrder + 1) % maxOrder
+    if(musicOrder[nowPlayOrder] != -1) {
+      soundPlayer[musicOrder[nowPlayOrder]-1].start()
+
+      console.log('1,'+String(musicOrder[nowPlayOrder]));
+      trigger('1,'+String(musicOrder[nowPlayOrder]), true);
+      triggered();
+    }
+    console.log('repeat')
+  }
+
+  function background(time) {
+    bgPlayer.start()
+  }
+
+
   //SOCKET TEST
   const socket = io('https://taiwanbeats2019.herokuapp.com/');
   socket.on('connect', () => {
-
+    initSequencer();
     socket.on('broadcast', (data) => {
-        //console.log(data)
-
-        trigger('1,'+String(data.id), true);
-        trigger('2,'+String(data.id), true);
-        triggered();
+        console.log(data)
+        musicOrder = data.sequencer;
+        startSequencer();
+        
     });
     
   })
@@ -573,10 +631,10 @@ $(function() {
   }
 
   var showHint = _.debounce(function() {
-    if (embedding) {
-      showHint();
-      return;
-    }
+    // if (embedding) {
+    //   showHint();
+    //   return;
+    // }
     $hint.fadeIn();
   }, 20000);  // Twenty Second timeout
 

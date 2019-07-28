@@ -62,7 +62,7 @@ var vm = new Vue({
         imageLink() {
           if (this.seq == -1) return "";
           //$("[data-object-id="+this.id+"]").addClass("seq-in");
-          return 'https://monoame.com/aramono/img/ara_obj-'+this.seq+'.svg';
+          return './icon/all-colors-copy-'+(this.seq+3)+'.png';
         }
       }
     }
@@ -85,7 +85,7 @@ var vm = new Vue({
     sendOsc(){
       //TODO: send!
       console.log(this.musicOrder)
-      socket.emit("order", {
+      socket.emit("broadcast", {
         sequencer: this.musicOrder
       })
     },

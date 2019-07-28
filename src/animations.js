@@ -2602,7 +2602,7 @@ window.animations = (function() {
 
   var palette, amount, c, r, g, b, k, v;
   var exports = {
-
+    
     initializeSound: function() {
 
       exports.updateAudio();
