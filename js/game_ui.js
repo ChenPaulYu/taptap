@@ -7,25 +7,21 @@ var vm = new Vue({
     maxOrder: 16, //sequencer length
     nowOrder: 0, // sequencer to fill index
     nowPlayOrder: -1, //sequncer play index
-    soundDir: './sound/2bar_sample/',
+    soundDir: './sound/new_sample/',
     bgFile: 'sasa.mp3',
     soundFile: [
-      '2bar1-巴拉巴拉巴拉.mp3', 
-      '2bar2-巴拉巴拉巴拉.mp3', 
-      '2bar3-巴拉巴拉巴拉.mp3', 
-      '2bar4-巴拉巴拉巴拉.mp3', 
-      '2bar5-巴拉巴拉巴拉.mp3',
-      '2bar6-巴拉巴拉巴拉.mp3',
-      '2bar7-巴拉巴拉巴拉.mp3',
-      '2bar8-巴拉巴拉巴拉.mp3',
-      '2bar1-巴拉巴拉巴拉.mp3', 
-      '2bar2-巴拉巴拉巴拉.mp3', 
-      '2bar3-巴拉巴拉巴拉.mp3', 
-      '2bar4-巴拉巴拉巴拉.mp3', 
-      '2bar5-巴拉巴拉巴拉.mp3',
-      '2bar6-巴拉巴拉巴拉.mp3',
-      '2bar7-巴拉巴拉巴拉.mp3',
-      '2bar8-巴拉巴拉巴拉.mp3'],
+      '0.mp3', 
+      '1.mp3', 
+      '2.mp3', 
+      '3.mp3', 
+      '4.mp3',
+      '5.mp3',
+      '6.mp3',
+      '7.mp3',
+      '8.mp3',
+      '9.mp3',
+      '10.mp3',
+      '11.mp3'],
       soundPlayer: [],
       bgPlayer: null
   },
@@ -39,8 +35,8 @@ var vm = new Vue({
     }
 
     Tone.Transport.bpm.value = 76
-    Tone.Transport.scheduleRepeat(this.repeat, '2n');
-    Tone.Transport.scheduleRepeat(this.background, '4n');
+    Tone.Transport.scheduleRepeat(this.repeat, '4n');
+    // Tone.Transport.scheduleRepeat(this.background, '4n');
 
   },
   components: {
