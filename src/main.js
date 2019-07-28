@@ -38,14 +38,19 @@ $(function() {
   var soundFile = soundFiles[0];
   var soundInd = 0;
   var soundPlayer= [];
+  var soundPlayers = [[],[]];
   var bgPlayer= null;
 
   function initSequencer() {
     bgPlayer = new Tone.Player(soundDir + bgFile).toMaster()
 
     for (var i=0; i<maxOrder; i++) {
-      soundPlayer[i] = new Tone.Player(soundDir + soundFile[i]).toMaster()
+      soundPlayers[0][i] = new Tone.Player(soundDir + soundFiles[0][i]).toMaster()
     }
+    for (var i=0; i<maxOrder; i++) {
+      soundPlayers[1][i] = new Tone.Player(soundDir + soundFiles[1][i]).toMaster()
+    }
+    soundPlayer = soundPlayers[0];
 
     Tone.Transport.bpm.value = 76
     Tone.Transport.scheduleRepeat(repeat, '2n');
@@ -332,7 +337,7 @@ $(function() {
           case 32:
             index = '3,0';
             soundInd = (soundInd+1)%2;
-            soundFile = soundFiles[soundInd];
+            soundPlayer= soundPlayers[soundInd];
             break;
         }
 

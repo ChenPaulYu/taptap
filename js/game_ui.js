@@ -67,7 +67,7 @@ var vm = new Vue({
     //when click the music paragraph
     selectMusic(ind) {
       this.$set(this.musicOrder, this.nowOrder, ind);
-      this.soundPlayer[ind].start();
+      this.soundPlayer[ind-1].start();
       this.nowOrder++;
       this.nowOrder %= this.maxOrder;
     },
