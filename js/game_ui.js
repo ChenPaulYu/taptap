@@ -62,7 +62,7 @@ var vm = new Vue({
         imageLink() {
           if (this.seq == -1) return "";
           //$("[data-object-id="+this.id+"]").addClass("seq-in");
-          return './icon/all-colors-copy-'+(this.seq+3)+'.png';
+          return './chosen_icon/animation-'+this.seq+'.png';
         }
       }
     }
