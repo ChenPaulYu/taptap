@@ -47,8 +47,10 @@ $(function() {
     if(musicOrder[nowPlayOrder] != -1) {
       soundPlayer[musicOrder[nowPlayOrder]-1].start()
 
-      console.log('1,'+String(musicOrder[nowPlayOrder]));
-      trigger('1,'+String(musicOrder[nowPlayOrder]%8), true);
+      //console.log('1,'+String(musicOrder[nowPlayOrder]));
+      console.log(musicOrder[nowPlayOrder]+" (music)");
+      console.log(mapping[musicOrder[nowPlayOrder]]);
+      trigger(mapping[musicOrder[nowPlayOrder]], true);
       triggered();
     }
     console.log('repeat')
