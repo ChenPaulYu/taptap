@@ -5,7 +5,7 @@ $(function() {
   var maxOrder = 16;
   var soundDir= './sound/2bar_sample/';
   var bgFile= 'sasa.mp3';
-  var soundFile= [
+  var soundFiles = [[
       '0.wav', 
       '1.wav',
       '2.wav',
@@ -17,24 +17,26 @@ $(function() {
       '8.wav',
       '9.wav',
       '10.wav',
-      '11.wav'];
-  // var soundFile= [
-  //       '2bar1-巴拉巴拉巴拉.mp3', 
-  //       '2bar2-巴拉巴拉巴拉.mp3', 
-  //       '2bar3-巴拉巴拉巴拉.mp3', 
-  //       '2bar4-巴拉巴拉巴拉.mp3', 
-  //       '2bar5-巴拉巴拉巴拉.mp3',
-  //       '2bar6-巴拉巴拉巴拉.mp3',
-  //       '2bar7-巴拉巴拉巴拉.mp3',
-  //       '2bar8-巴拉巴拉巴拉.mp3',
-  //       '2bar1-巴拉巴拉巴拉.mp3', 
-  //       '2bar2-巴拉巴拉巴拉.mp3', 
-  //       '2bar3-巴拉巴拉巴拉.mp3', 
-  //       '2bar4-巴拉巴拉巴拉.mp3', 
-  //       '2bar5-巴拉巴拉巴拉.mp3',
-  //       '2bar6-巴拉巴拉巴拉.mp3',
-  //       '2bar7-巴拉巴拉巴拉.mp3',
-  //       '2bar8-巴拉巴拉巴拉.mp3'];
+      '11.wav'], 
+      [
+        '2bar1-巴拉巴拉巴拉.mp3', 
+        '2bar2-巴拉巴拉巴拉.mp3', 
+        '2bar3-巴拉巴拉巴拉.mp3', 
+        '2bar4-巴拉巴拉巴拉.mp3', 
+        '2bar5-巴拉巴拉巴拉.mp3',
+        '2bar6-巴拉巴拉巴拉.mp3',
+        '2bar7-巴拉巴拉巴拉.mp3',
+        '2bar8-巴拉巴拉巴拉.mp3',
+        '2bar1-巴拉巴拉巴拉.mp3', 
+        '2bar2-巴拉巴拉巴拉.mp3', 
+        '2bar3-巴拉巴拉巴拉.mp3', 
+        '2bar4-巴拉巴拉巴拉.mp3', 
+        '2bar5-巴拉巴拉巴拉.mp3',
+        '2bar6-巴拉巴拉巴拉.mp3',
+        '2bar7-巴拉巴拉巴拉.mp3',
+        '2bar8-巴拉巴拉巴拉.mp3']];
+  var soundFile = soundFiles[0];
+  var soundInd = 0;
   var soundPlayer= [];
   var bgPlayer= null;
 
@@ -329,8 +331,9 @@ $(function() {
           // SPACE
           case 32:
             index = '3,0';
+            soundInd = (soundInd+1)%2;
+            soundFile = soundFiles[soundInd];
             break;
-
         }
 
         trigger(index);
