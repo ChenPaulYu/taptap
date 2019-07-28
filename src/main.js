@@ -48,7 +48,7 @@ $(function() {
       soundPlayer[musicOrder[nowPlayOrder]-1].start()
 
       console.log('1,'+String(musicOrder[nowPlayOrder]));
-      trigger('1,'+String(musicOrder[nowPlayOrder]), true);
+      trigger('1,'+String(musicOrder[nowPlayOrder]%8), true);
       triggered();
     }
     console.log('repeat')
