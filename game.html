@@ -6,7 +6,8 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>taptap game</title>
 
-	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css'>
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/magnific-popup.css">
 	<link rel="stylesheet" href="css/animsition.min.css">
@@ -20,7 +21,7 @@
 	<link rel="stylesheet" href="css/style.min.css">
 	<link rel="stylesheet" href="css/menu.css">
 	<link rel="stylesheet" href="css/style-child-theme.min.css">
-	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css'>
+	
 	<link rel="stylesheet" href="css/game_ui.css">
 
 
@@ -33,7 +34,6 @@
 		<div class="cssload-whirlpool"></div>
 	</div>
 </div>
-
 <div class="main-wrapper" data-sound="audio/" data-top="992">
 	<div class="header_top_bg  header_trans-fixed menu_light_text" style="padding-bottom: 0;">
 		<div class="container-fluid">
@@ -94,11 +94,11 @@
 			</div>
 		</div>
 	</div>
+
 	<div id="app">
-		<!-- <div class="loading fadeOut animated delay-ani-50"><img class="fadeIn animated delay-ani-10" src="https://monoame.com/aramono/img/title-01.svg"/></div> -->
-		<div class="container-button container-fluid fadeIn">
+		<div class="container-button container-fluid">
 			<div class="row" :key="1">
-				<div class="col-4 col-sm-3 col-lg-2 fadeIn animated" v-for="i in 12">
+				<div class="col-4 col-sm-3 col-lg-2" v-for="i in 12">
 				    <div class="music-block">
 				    	<div class="content" @click="selectMusic(i);" :data-object-id="i"><img :src="'./chosen_icon/animation-'+i+'.png'"/></div>
 				    </div>

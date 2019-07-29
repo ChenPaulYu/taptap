@@ -26,16 +26,12 @@ html, body {
   padding-bottom: 30px;
 }
 
-.container-seq {
-
-}
-
 [class^='col'] {
   padding: 0;
 }
 
 .music-block {
-  flex-grow: 0;
+  /*flex-grow: ;*/
   font-style: 0;
   padding-bottom: 100%;
   position: relative;
@@ -54,7 +50,7 @@ html, body {
   padding-bottom: 100%;
   position: relative;
   display: flex;
-  flex-grow: 0;
+  /*flex-grow: 0;*/
   justify-content: center;
   align-items: center;
   
@@ -143,7 +139,7 @@ html, body {
   background-color: var(--aqua-blue);
   position: absolute;
   bottom: 0px;
-  flex-grow: 1;
+  /*flex-grow: 1;*/
 }
 
 .control-panel .row{
