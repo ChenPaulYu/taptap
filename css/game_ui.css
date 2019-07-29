@@ -203,6 +203,10 @@ html, body {
   background-color: var(--robin-s-egg);
 }
 
+.foot-space {
+  height: 15vw;
+}
+
 .text {
   font-family: Montserrat;
   font-size: 12px;
