@@ -1,8 +1,10 @@
 $(function() {
 
-  var musicOrder;
-  var nowPlayOrder;
+  var musicOrder = [];
+  var nowPerson = 0;
+  var nowPlayOrder = -1;
   var maxOrder = 16;
+  var maxPerson = 10;
   var soundDir= './sound/2bar_sample/';
   var bgFile= 'sasa.mp3';
   var soundFiles = [[
@@ -58,15 +60,17 @@ $(function() {
   }
 
   function startSequencer() {
-    nowPlayOrder = -1;
+    //nowPlayOrder = -1;
+
     Tone.Transport.start();
+    console.log("start sequencer");
   }
 
   function repeat(time) {
-    nowPlayOrder = (nowPlayOrder + 1) % maxOrder
+    nowPlayOrder = (nowPlayOrder + 1) % musicOrder.length;
     if(musicOrder[nowPlayOrder] != -1) {
       soundPlayer[musicOrder[nowPlayOrder]-1].start()
-
+      //console.log("start sequencer");
       //console.log('1,'+String(musicOrder[nowPlayOrder]));
       console.log(musicOrder[nowPlayOrder]+" (music)");
       console.log(mapping[musicOrder[nowPlayOrder]]);
@@ -86,10 +90,24 @@ $(function() {
   socket.on('connect', () => {
     initSequencer();
     socket.on('broadcast', (data) => {
-        console.log(data)
-        musicOrder = data.sequencer;
-        startSequencer();
-        
+
+        if (nowPerson < maxPerson) {
+            for (var i=0; i<maxOrder; i++) {
+                musicOrder.push(data.sequencer[i]);
+            }
+            musicOrder.push(-1);
+        } else {
+            var offset = (nowPerson % maxPerson)*(maxOrder+1);
+            for (var i=0; i<maxOrder; i++) {
+                musicOrder[i+offset] = data.sequencer[i];
+            }
+            musicOrder[maxOrder+1+offset] = -1;
+        }
+        nowPerson++;
+        //musicOrder = data.sequencer;
+        if (nowPerson == 1) 
+          startSequencer();
+        console.log(musicOrder); 
     });
     
   })
