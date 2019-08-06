@@ -7,6 +7,7 @@
 	<title>taptap game</title>
 
 	<!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css'>
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/magnific-popup.css">
@@ -78,7 +79,7 @@
 							</a>
 							<ul class="menu">
 								<li class="menu-item">
-									<a href="#">home</a>
+									<a href="index.html">home</a>
 								</li>
 								<li id="menu-item-9"
 								    class="menu-item current-menu-ancestor">
@@ -131,11 +132,27 @@
 				<div class="col-2" @click="play()">
 					<img src="./img/game/triangle-copy-2.png"/>
 				</div>
-				<div class="col-3 panel-send" @click="sendOsc()">
+				<div class="col-3 panel-send" @click="sendMusic();">
 					<span class="text">SEND</span>
 				</div>
 			</div>
 		</div>
+		<modal v-show="isModalVisible" @close="closeModal"> 
+			<!-- enter user name -->
+	    	<div slot="body" v-if="modalStep==1">
+                What's your name
+                <input type="text" v-model="userName"> </input>
+            </div>
+            <button slot="footer" type="button" class="game-modal-btn" 
+            		 v-if="modalStep==1" @click="sendOsc();nextStep();">
+                Send
+            </button>
+
+            <div slot="body" v-if="modalStep==2" class="game-modal-success">
+            	<img src="img/game/success-shape.svg" class="success-shape" />
+               	</br><span> Success! </span>
+            </div>
+		</modal>
 	</div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>

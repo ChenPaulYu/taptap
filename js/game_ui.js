@@ -1,3 +1,5 @@
+//import Vue from 'vue';
+//import modal from './components/modal.vue';
 const socket = io('https://taiwanbeats2019.herokuapp.com/');
 
 var vm = new Vue({
@@ -22,8 +24,11 @@ var vm = new Vue({
       '9.wav',
       '10.wav',
       '11.wav'],
-      soundPlayer: [],
-      bgPlayer: null
+    soundPlayer: [],
+    bgPlayer: null,
+    isModalVisible: false,
+    modalStep: 1,
+    userName: ""
   },
   mounted() {
 
@@ -61,12 +66,35 @@ var vm = new Vue({
           return './chosen_icon/animation-'+this.seq+'.png';
         }
       }
+    }, 
+    modal: {
+      template: `
+        <div class="game-modal-backdrop">
+          <div class="game-modal game-modal-text">
+            <header class="game-modal-header">
+              <slot name="header"></slot>
+            </header>
+            <section class="game-modal-body">
+              <slot name="body"></slot>
+             </section>
+             <footer class="game-modal-footer">
+                <slot name="footer"></slot>
+            </footer>
+          </div>
+        </div>
+      `,
+      methods: {
+        close() {
+          this.$emit('close');
+        },
+      }
     }
   },
   methods: {
     //when click the music paragraph
     selectMusic(ind) {
       this.$set(this.musicOrder, this.nowOrder, ind);
+      if (this.nowOrder > 0) this.soundPlayer[this.musicOrder[this.nowOrder-1]-1].stop();
       this.soundPlayer[ind-1].start();
       this.nowOrder++;
       this.nowOrder %= this.maxOrder;
@@ -80,8 +108,9 @@ var vm = new Vue({
     },
     sendOsc(){
       //TODO: send!
-      console.log(this.musicOrder)
+      console.log(this.musicOrder, this.userName)
       socket.emit("broadcast", {
+        name: this.userName,
         sequencer: this.musicOrder
       })
     },
@@ -105,6 +134,26 @@ var vm = new Vue({
     },
     background() {
       this.bgPlayer.start()
+    },
+    showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    },
+    sendMusic() {
+      this.modalStep = 1;
+      userName = "";
+      this.showModal();
+    },
+    nextStep() {
+      // TODO: add sending page
+      this.modalStep += 1;
+      if (this.modalStep == 2) { // success
+        setTimeout(function(){
+          this.closeModal();
+        }.bind(this), 1000);
+      }
     }
 
   }
