@@ -11,6 +11,7 @@ var vm = new Vue({
     nowPlayOrder: -1, //sequncer play index
     soundDir: './sound/new_sample/',
     bgFile: 'sasa.mp3',
+    melodyFile: 'Meloday_8bar_bpm76.wav',
     soundFile: [
       '0.wav', 
       '1.wav',
@@ -26,22 +27,25 @@ var vm = new Vue({
       '11.wav'],
     soundPlayer: [],
     bgPlayer: null,
+    bgFixPlay: false,
     isModalVisible: false,
     modalStep: 1,
     userName: ""
   },
   mounted() {
 
-    this.bgPlayer = new Tone.Player(this.soundDir + this.bgFile).toMaster()
+    this.bgPlayer = new Tone.Player("./sound/" + this.melodyFile).toMaster()
+    //this.bgPlayer = new Tone.Player(this.soundDir + this.bgFile).toMaster()
 
     for (var i=0; i<this.maxOrder; i++) {
       this.musicOrder.push(-1);
       this.soundPlayer[i] = new Tone.Player(this.soundDir + this.soundFile[i]).toMaster()
+      this.soundPlayer[i].volume.value = -12;
     }
 
-    Tone.Transport.bpm.value = 76
+    Tone.Transport.bpm.value = 76;
     Tone.Transport.scheduleRepeat(this.repeat, '2n');
-    // Tone.Transport.scheduleRepeat(this.background, '4n');
+    Tone.Transport.scheduleRepeat(this.backgroundRepeat, '8:0:0');
 
   },
   components: {
@@ -118,9 +122,16 @@ var vm = new Vue({
       //TODO: play song here! 
       //      change nowPlayOrder in each schedule repeat
       if (Tone.Transport.state == 'started') {
-        Tone.Transport.stop()
+        this.bgPlayer.stop()
+        Tone.Transport.pause()
+        
       } else {
+        if (this.nowPlayOrder != -1 && this.nowPlayOrder != this.maxOrder-1) 
+          this.bgFixPlay = true;
         Tone.Transport.start()
+        
+        //if (this.nowPlayOrder != -1)
+          //this.bgPlayer.start(Tone.now, '3n');
       }
 
     }, 
@@ -130,9 +141,16 @@ var vm = new Vue({
       if(this.musicOrder[this.nowPlayOrder] != -1) {
         this.soundPlayer[this.musicOrder[this.nowPlayOrder]-1].start()
       }
+      if (this.bgFixPlay) {
+        var tempo = Math.floor(this.nowPlayOrder/2) + ":" + this.nowPlayOrder%2 + ":0";
+        console.log(tempo);
+        this.bgPlayer.start(Tone.now, tempo);
+        this.bgFixPlay = false;
+      }
       console.log('repeat')
     },
-    background() {
+    backgroundRepeat() {
+      console.log('background');
       this.bgPlayer.start()
     },
     showModal() {
