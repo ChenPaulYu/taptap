@@ -1251,25 +1251,16 @@ var dotted_spiral = (function () {
 
     var playing = false;
     var callback = _.identity;
-    var amount = 25, r1 = min_dimension * 30 / 900, r2 = min_dimension * 40 / 900, theta, deviation, distance = height;
+    var amount = 16,
+    r1 = min_dimension * 12 / 900,
+    r2 = min_dimension * 20 / 900,
+    theta, deviation, distance = height;
 
     var destinations = [];
-    var circles = _.map(_.range(amount), function(i) {
+    var circles = _.map(_.range(amount), function (i) {
       var r = Math.round(map(Math.random(), 0, 1, r1, r2));
       var circle = two.makeCircle(0, 0, r);
-      //circle.fill = colors.white;
-      //circle.fill = colors[PROPERTIES[PROPERTIES.length - 1 - (i % PROPERTIES.length)]];
-      if(!isSafari && !isMobile){
-      	var circleTexture = new Two.Texture('./img/screen/concert.png')
-      circleTexture.repeat = 'repeat';
-      
-      circleTexture.scale= 0.2;
-      circle.fill = circleTexture;
-      }
-      else{
-      	circle.fill = colors.white;
-      }
-      
+      circle.fill = colors.white;
       circle.noStroke();
       destinations.push(new Two.Vector());
       return circle;
