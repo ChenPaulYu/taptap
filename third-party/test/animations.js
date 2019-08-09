@@ -1652,16 +1652,12 @@ var dotted_spiral = (function () {
 
     var radius = min_dimension * 0.25;
     var circle = two.makeCircle(0, 0, radius);
-    if(!isSafari && !isMobile){
-    	var circleTexture = new Two.Texture('./img/screen/concert.png')
+    var circleTexture = BGTexture
     circleTexture.scale = 0.65;
     circleTexture.repeat = 'repeat';
     circle.fill = circleTexture;
     circle.noStroke();
-    }
-    else{
-    	circle.noStroke().fill = colors.accent;
-    }
+  
     
 
     var start = function(onComplete, silent) {
@@ -2270,15 +2266,11 @@ var dotted_spiral = (function () {
     
     var moon = new Two.Path(points, true, false, true);
     moon.translation.set(center.x, center.y);
-    if(!isSafari && !isMobile){
-    	 var moonTexture = new Two.Texture('./img/screen/concert.png')
+    
+    var moonTexture = BGTexture
     moonTexture.repeat = 'repeat';
-    moonTexture.scale = 0.65; 
+    moonTexture.scale = 0.65;
     moon.fill = moonTexture;
-    }
-    else{
-    	moon.fill = colors.foreground;
-    }
    
     moon.noStroke();    
     two.add(moon);
@@ -2299,7 +2291,7 @@ var dotted_spiral = (function () {
     start.onComplete = reset;
 
     var update = function() {
-      moon.fill = colors.foreground;
+      moon.fill = BGTexture
     };
     var resize = function() {
       radius = min_dimension * 0.33;
@@ -2374,10 +2366,10 @@ var dotted_spiral = (function () {
 
   var squiggle = (function() {
 
- /*   var playing = false;
-    var callback = _.identity;
-    var amount = 200, w = center.x, phi = 6, h = height * 0.33;
-    var offset = Math.PI * 0.5;
+  var playing = false;
+  var callback = _.identity;
+  var amount = 200, w = center.x, phi = 6, h = height * 0.33;
+  var offset = Math.PI * 0.5;
 	
 	var pointsArray = [];
 	var theta1 = TWO_PI * phi * 3 + offset;
@@ -2466,103 +2458,103 @@ var dotted_spiral = (function () {
       _out.stop();
     }
 
-    reset();*/
-    var playing = false;
-    var callback = _.identity;
-    var amount = 12, r1 = height * 20 / 900, r2 = height * 40 / 900;
+    reset();
+    // var playing = false;
+    // var callback = _.identity;
+    // var amount = 12, r1 = height * 20 / 900, r2 = height * 40 / 900;
 
-    var longest = 0, index;
+    // var longest = 0, index;
 
-    var circles = _.map(_.range(amount), function(i) {
-      var r = Math.round(map(Math.random(), 0, 1, r1, r2));
-      var delay = Math.random() * duration * 0.5;
-      var circle = two.makeCircle(0, 0, r);
-      circle.key = colors.getRandomKey();
-      circle.stroke = colors[circle.key];
-      var texture = new Two.Texture('./img/screen/concert.png')
-      texture.repeat = 'repeat';
-      circle.scale= 0.125;
-      circle.fill = texture;
-      circle.__linewidth = Math.random() * 20 + 40;
-      circle.tween = new TWEEN.Tween(circle)
-        .to({ scale: 1, linewidth: 0 }, duration * 0.2)
-        .easing(Easing.Sinusoidal.Out)
-        .delay(delay)
-        .onComplete(function() {
-          circle.visible = false;
-        });
+    // var circles = _.map(_.range(amount), function(i) {
+    //   var r = Math.round(map(Math.random(), 0, 1, r1, r2));
+    //   var delay = Math.random() * duration * 0.5;
+    //   var circle = two.makeCircle(0, 0, r);
+    //   circle.key = colors.getRandomKey();
+    //   circle.stroke = colors[circle.key];
+    //   var texture = new Two.Texture('./img/screen/concert.png')
+    //   texture.repeat = 'repeat';
+    //   circle.scale= 0.125;
+    //   circle.fill = texture;
+    //   circle.__linewidth = Math.random() * 20 + 40;
+    //   circle.tween = new TWEEN.Tween(circle)
+    //     .to({ scale: 1, linewidth: 0 }, duration * 0.2)
+    //     .easing(Easing.Sinusoidal.Out)
+    //     .delay(delay)
+    //     .onComplete(function() {
+    //       circle.visible = false;
+    //     });
 
-      if (longest < delay) {
-        longest = delay;
-        index = i;
-      }
+    //   if (longest < delay) {
+    //     longest = delay;
+    //     index = i;
+    //   }
 
-      return circle;
+    //   return circle;
 
-    });
+    // });
 
-    circles[index].tween
-      .onComplete(function() {
-        circles[index].visible = false;
-        start.onComplete();
-        callback();
-      });
+    // circles[index].tween
+    //   .onComplete(function() {
+    //     circles[index].visible = false;
+    //     start.onComplete();
+    //     callback();
+    //   });
 
 
-    var group = two.makeGroup(circles);
-    group.translation.set(center.x, center.y);
+    // var group = two.makeGroup(circles);
+    // group.translation.set(center.x, center.y);
 
-    var i, c;
-    var start = function(onComplete, silent) {
-      playing = true;
-      for (i = 0; i < amount; i++) {
-        c = circles[i];
-        c.visible = true;
-        c.tween.start();
-      }
-      if (!silent && exports.sound) {
-        exports.sound.stop().play();
-      }
-      if (_.isFunction(onComplete)) {
-        callback = onComplete;
-      }
-    }
+    // var i, c;
+    // var start = function(onComplete, silent) {
+    //   playing = true;
+    //   for (i = 0; i < amount; i++) {
+    //     c = circles[i];
+    //     c.visible = true;
+    //     c.tween.start();
+    //   }
+    //   if (!silent && exports.sound) {
+    //     exports.sound.stop().play();
+    //   }
+    //   if (_.isFunction(onComplete)) {
+    //     callback = onComplete;
+    //   }
+    // }
 
-    start.onComplete = reset;
+    // start.onComplete = reset;
 
-    var update = function() {
-      for (i = 0; i < amount; i++) {
-        circles[i].stroke = colors[circles[i].key];
-      }
-    };
-    var resize = function() {
-      group.translation.set(center.x, center.y);
-    };
+    // var update = function() {
+    //   for (i = 0; i < amount; i++) {
+    //     circles[i].stroke = colors[circles[i].key];
+    //   }
+    // };
+    // var resize = function() {
+    //   group.translation.set(center.x, center.y);
+    // };
 
-    var theta, x, y;
-    function reset() {
+    // var theta, x, y;
+    // function reset() {
 
-      for (i = 0; i < amount; i++) {
+    //   for (i = 0; i < amount; i++) {
 
-        c = circles[i];
+    //     c = circles[i];
 
-        theta = TWO_PI * Math.random();
+    //     theta = TWO_PI * Math.random();
 
-        x = Math.random() * center.y * Math.cos(theta);
-        y = Math.random() * center.y * Math.sin(theta);
+    //     x = Math.random() * center.y * Math.cos(theta);
+    //     y = Math.random() * center.y * Math.sin(theta);
 
-        c.translation.set(x, y);
-        c.visible = false;
-        c.scale = 0;
-        c.linewidth = c.__linewidth;
+    //     c.translation.set(x, y);
+    //     c.visible = false;
+    //     c.scale = 0;
+    //     c.linewidth = c.__linewidth;
 
-        c.tween.stop();
+    //     c.tween.stop();
 
-      }
+    //   }
 
-      playing = false;
+    //   playing = false;
 
-    }
+    // }
 
     reset();
 

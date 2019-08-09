@@ -839,7 +839,7 @@ window.animations = (function() {
         playing = true;
       })
       .easing(Easing.Circular.In)
-      .to({ rotation: Math.PI / 8, scale: 8 }, duration * 2)
+      .to({ rotation: Math.PI / 8, scale: 8 }, 1000)
       .onUpdate(function(u) {
         t = Math.min(map(u, 0, 0.25, 0, 1), 1);
         index = Math.floor(t * (amount));
@@ -863,7 +863,7 @@ window.animations = (function() {
       group.rotation = Math.random() * TWO_PI;
       group.scale = 1;
 
-      _in.to({ rotation: group.rotation + Math.PI / 8, scale: Math.random() * 2 + 10 }, duration * 2).stop();
+      _in.to({ rotation: group.rotation + Math.PI / 8, scale: Math.random() * 2 + 10 }, 1000).stop();
 
       playing = false;
 
