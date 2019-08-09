@@ -1,5 +1,4 @@
 $(function() {
-
   var musicOrder = [];
   var nowPerson = 0;
   var nowPlayOrder = -1;
@@ -37,7 +36,6 @@ $(function() {
         '2bar6-巴拉巴拉巴拉.mp3',
         '2bar7-巴拉巴拉巴拉.mp3',
         '2bar8-巴拉巴拉巴拉.mp3']];
-  var soundFile = soundFiles[0];
   var soundInd = 0;
   var soundPlayer= [];
   var soundPlayers = [[],[]];
@@ -128,12 +126,10 @@ $(function() {
   /**
    * Append Sound Generation to Animations
    */
-
   var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
   var path = window.location.href.match(/localhost/i) ? '/assets/' : '//storage.googleapis.com/cdn.patatap.com/';
   var filetype = '.mp3';
   var asset_count = 0, $loaded = $('#loaded');
-
   if (url.boolean('kiosk')) {
     path += 'kiosk/';
   }
@@ -166,12 +162,14 @@ $(function() {
       $window.bind('click', enableAudio);
       soundsBuffered();
     });
+    
   });
+
 
   function initialize() {
 
     animations.initializeSound();
-
+    
     /* comment!
     var hideEmbed = function(e) {
       if (!!$embed.has(e.target).length) {
@@ -372,13 +370,12 @@ $(function() {
       //$credits.css('display', 'block');
       $hint.find('.message').html('Press any key, A to Z or spacebar, and turn up speakers');
     }
-
-    two
-      .bind('update', function() {
-
+    
+    two.bind('update', function() {
+        
         TWEEN.update();
         animations.update();
-
+        
         if (!ui) {
           return;
         }
@@ -387,8 +384,8 @@ $(function() {
 
         ui.update();
 
-      }).play();
-
+    }).play();
+    
     $window.trigger('resize');
 
     _.delay(function() {
@@ -625,11 +622,11 @@ $(function() {
   function trigger(hash, silent) {
 
     var animation = animations.map[hash];
-
     if (animation) {
       if (animation.playing()) {
         animation.clear();
       }
+      console.log(animation)
       animation.start(undefined, silent);
       if (window.ga) {
         window.ga('send', 'event', 'animation', 'trigger', hash);
@@ -639,6 +636,7 @@ $(function() {
   }
 
   var timeout;
+  
   var startDemonstration = _.debounce(function() {
     interacting = false;
     triggerOccasionally();

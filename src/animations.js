@@ -303,7 +303,6 @@ window.animations = (function() {
     };
 
     monome[exports.hash] = exports;
-
     return exports;
 
   })();
@@ -429,6 +428,8 @@ window.animations = (function() {
     });
 
     var clay = two.makeCurve(points);
+    var texture = new Two.Texture('./img/screen/concert.png')
+    clay.fill = texture
     clay.fill = colors.middleground;
     clay.noStroke();
 
@@ -576,7 +577,9 @@ window.animations = (function() {
 
         var shape = two.makeRectangle(x, y, w, d);
 
-        shape.fill = colors.white;
+        var texture = new Two.Texture('./img/screen/bg.jpg')
+        shape.fill = texture
+        shape.noStroke().fill = texture
         shape.noStroke();
 
         group.add(shape);
@@ -703,7 +706,9 @@ window.animations = (function() {
 
       var shape = two.makeRectangle(center.x, center.y, width, height);
       var timeout;
-      shape.noStroke().fill = colors[PROPERTIES[PROPERTIES.length - 1 - (i % PROPERTIES.length)]];
+      // shape.noStroke().fill = colors[PROPERTIES[PROPERTIES.length - 1 - (i % PROPERTIES.length)]];
+      var texture = new Two.Texture('./img/screen/concert.png')
+      shape.noStroke().fill = texture
       shape.visible = false;
 
       var start = function(onComplete, silent) {
@@ -726,6 +731,8 @@ window.animations = (function() {
       };
 
       var update = function() {
+        var texture = new Two.Texture('https://i.imgur.com/DRmh6S9.jpg')
+        shape.fill = texture
         shape.fill = colors[PROPERTIES[PROPERTIES.length - 1 - (i % PROPERTIES.length)]];
       };
 
@@ -879,7 +886,6 @@ window.animations = (function() {
     return exports;
 
   })();
-
   var suspension = (function() {
 
     var playing = false;
@@ -890,7 +896,9 @@ window.animations = (function() {
     var circles = _.map(_.range(amount), function(i) {
       var r = Math.round(map(Math.random(), 0, 1, r1, r2));
       var circle = two.makeCircle(0, 0, r);
-      circle.fill = colors.white;
+      // circle.fill = colors.black;
+      var texture = new Two.Texture('./img/screen/bg.jpg')
+      circle.fill = texture;
       circle.noStroke();
       destinations.push(new Two.Vector());
       return circle;
@@ -916,7 +924,9 @@ window.animations = (function() {
     start.onComplete = reset;
 
     var update = function() {
-      group.fill = colors.white;
+      var texture = new Two.Texture('./img/screen/bg.jpg')
+      group.fill = texture;
+      // group.fill = colors.white;
     };
     var resize = function() {
       group.translation.set(center.x, center.y);
@@ -1152,9 +1162,12 @@ window.animations = (function() {
     points.push(points[0].clone(), points[1].clone());
 
     var timer = two.makeCurve(points, true);
-    timer.stroke = colors.highlight;
+    // timer.stroke = colors.highlight;
+    timer.noStroke()
     timer.cap = 'butt';
     timer.linewidth = min_dimension / 10;
+    var texture = new Two.Texture('./img/screen/bg.jpg')
+    timer.fill = texture
     timer.noFill();
 
     timer.translation.set(center.x, center.y);
@@ -1482,7 +1495,17 @@ window.animations = (function() {
     var moon = two.makePolygon(points);
     moon.translation.set(center.x, center.y);
     moon.fill = colors.foreground;
+    // var moon = new Two.Path(points, true, false, true);
+    // moon.translation.set(center.x, center.y);
+    // var moonTexture = new Two.Texture('./img/screen/concert.png')
+
+    // moonTexture.repeat = 'repeat';
+    // moonTexture.scale = 0.65;
+    // moon.fill = moonTexture;
+
     moon.noStroke();
+
+    two.add(moon);
 
     var options = { ending: 0, beginning: 0 };
 
@@ -1566,7 +1589,6 @@ window.animations = (function() {
       hash: '0,2',
       filename: 'moon'
     };
-
     monome[exports.hash] = exports;
 
     return exports;
@@ -2603,8 +2625,7 @@ window.animations = (function() {
   var palette, amount, c, r, g, b, k, v;
   var exports = {
     
-    initializeSound: function() {
-
+    initializeSound: function() { 
       exports.updateAudio();
       return exports;
 
