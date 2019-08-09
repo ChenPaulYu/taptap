@@ -10,6 +10,7 @@ var vm = new Vue({
     nowOrder: 0, // sequencer to fill index
     nowPlayOrder: -1, //sequncer play index
     nowMelody: -5,
+    loaded: 0,
     soundDir: './sound/new_sample/',
     bgFile: 'sasa.mp3',
     melodyFile: 'Meloday_8bar_bpm76.wav',
@@ -37,8 +38,9 @@ var vm = new Vue({
     melodyArray: [1, 4, 6, 8]
   },
   mounted() {
-
-    this.bgPlayer = new Tone.Player("./sound/" + this.melodyFile).toMaster()
+    
+    this.bgPlayer = new Tone.Player("./sound/" + this.melodyFile, ()
+    }).toMaster()
     //this.bgPlayer = new Tone.Player(this.soundDir + this.bgFile).toMaster()
 
     for (var i=0; i<this.maxOrder; i++) {
@@ -46,7 +48,12 @@ var vm = new Vue({
     }
 
     for (var i=0; i<this.soundFile.length; i++) {
-      this.soundPlayer[i] = new Tone.Player(this.soundDir + this.soundFile[i]).toMaster()
+      this.soundPlayer[i] = new Tone.Player(this.soundDir + this.soundFile[i], () => {
+        this.loaded += 1
+        if (this.loaded == 13) {
+          this.preloadFinish()
+        }
+      }).toMaster()
       //this.soundPlayer[i].volume.value = -12;
     }
 
@@ -250,6 +257,11 @@ var vm = new Vue({
         setTimeout(function(){
           this.closeModal();
         }.bind(this), 1000);
+      }
+    }, 
+    preloadFinish() {
+      if($('.spinner-preloader-wrap').length){
+        $('.spinner-preloader-wrap').fadeOut(500);
       }
     }
 
