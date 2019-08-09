@@ -2,59 +2,41 @@ $(function() {
   var musicOrder = [];
   var nowPerson = 0;
   var nowPlayOrder = -1;
+  var nowMelody = -5;
   var maxOrder = 16;
   var maxPerson = 10;
-  var soundDir= './sound/2bar_sample/';
-  var bgFile= 'sasa.mp3';
-  var soundFiles = [[
-      '0.wav', 
-      '1.wav',
-      '2.wav',
-      '3.wav',
-      '4.wav',
-      '5.wav',
-      '6.wav',
-      '7.wav',
-      '8.wav',
-      '9.wav',
-      '10.wav',
-      '11.wav'], 
-      [
-        '2bar1-巴拉巴拉巴拉.mp3', 
-        '2bar2-巴拉巴拉巴拉.mp3', 
-        '2bar3-巴拉巴拉巴拉.mp3', 
-        '2bar4-巴拉巴拉巴拉.mp3', 
-        '2bar5-巴拉巴拉巴拉.mp3',
-        '2bar6-巴拉巴拉巴拉.mp3',
-        '2bar7-巴拉巴拉巴拉.mp3',
-        '2bar8-巴拉巴拉巴拉.mp3',
-        '2bar1-巴拉巴拉巴拉.mp3', 
-        '2bar2-巴拉巴拉巴拉.mp3', 
-        '2bar3-巴拉巴拉巴拉.mp3', 
-        '2bar4-巴拉巴拉巴拉.mp3', 
-        '2bar5-巴拉巴拉巴拉.mp3',
-        '2bar6-巴拉巴拉巴拉.mp3',
-        '2bar7-巴拉巴拉巴拉.mp3',
-        '2bar8-巴拉巴拉巴拉.mp3']];
-  var soundInd = 0;
+  var soundDir= './sound/new_sample/';
+  var soundFiles = [
+      'V1.wav',
+      'New1.wav', 
+      'New2.wav',
+      'V2.wav',
+      'New3.wav',
+      'V3.wav',
+      'New4.wav',
+      'V4.wav',
+      'New5.wav',
+      'New6.wav',
+      'New7.wav',
+      'New8.wav',
+      'BalaBalaBa.wav',
+      'sasa.mp3'];
   var soundPlayer= [];
-  var soundPlayers = [[],[]];
   var bgPlayer= null;
+  var melodyArray= [1, 4, 6, 8];
+
+  function stopMusic(ind) {
+    soundPlayer[ind-1].stop();
+  }
 
   function initSequencer() {
-    bgPlayer = new Tone.Player(soundDir + bgFile).toMaster()
-
-    for (var i=0; i<maxOrder; i++) {
-      soundPlayers[0][i] = new Tone.Player(soundDir + soundFiles[0][i]).toMaster()
+    for (var i=0; i<soundFiles.length; i++) {
+      soundPlayer[i] = new Tone.Player(soundDir + soundFiles[i]).toMaster()
     }
-    for (var i=0; i<maxOrder; i++) {
-      soundPlayers[1][i] = new Tone.Player(soundDir + soundFiles[1][i]).toMaster()
-    }
-    soundPlayer = soundPlayers[0];
 
     Tone.Transport.bpm.value = 76
     Tone.Transport.scheduleRepeat(repeat, '2n');
-    Tone.Transport.scheduleRepeat(background, '4n');
+    Tone.Transport.scheduleRepeat(animateRepeat, '2n', '0:1:0');
   }
 
   function startSequencer() {
@@ -66,17 +48,59 @@ $(function() {
   }
 
   function repeat(time) {
+    console.log("repeat");
+
     nowPlayOrder = (nowPlayOrder + 1) % musicOrder.length;
-    if(musicOrder[nowPlayOrder] != -1) {
-      soundPlayer[musicOrder[nowPlayOrder]-1].start()
-      //console.log("start sequencer");
-      //console.log('1,'+String(musicOrder[nowPlayOrder]));
-      console.log(musicOrder[nowPlayOrder]+" (music)");
-      console.log(mapping[musicOrder[nowPlayOrder]]);
-      trigger(mapping[musicOrder[nowPlayOrder]], true);
+    var ind = musicOrder[nowPlayOrder];
+
+    if (nowPlayOrder%(maxOrder+1) == maxOrder) {
+      if (musicOrder[nowPlayOrder-1] != -1) stopMusic(musicOrder[nowPlayOrder-1]);
+      nowMelody = -5;
+    }
+    if (ind != -1) {
+      if (melodyArray.includes(ind)) {
+        if ((nowPlayOrder-nowMelody) >= 4 ){
+          nowMelody = nowPlayOrder;
+          playMusic(ind);
+          
+        }
+      } else {
+        nowMelody = -5;
+        playMusic(ind);
+          
+      }
+      trigger(mapping[ind], true);
       triggered();
     }
-    console.log('repeat')
+   
+  }
+
+  function animateRepeat() {
+    if (musicOrder[nowPlayOrder] != 13) {
+      trigger(randTrigger(), true);
+      triggered();
+    } else {
+      trigger('0,0', true);
+      trigger('3,0', true);
+      triggered();
+    }
+  }
+
+  function randTrigger() {
+    var row = Math.floor(Math.random()*3);
+    var colume;
+    if (row == 0) {
+      colume = Math.floor(Math.random()*8+1)
+    } else if (row == 1) {
+      colume = Math.floor(Math.random()*7+1)
+    } else {
+      colume = Math.floor(Math.random()*5+1)
+    }
+    return row + "," + colume;
+  }
+
+  function playMusic(ind) {
+    soundPlayer[ind-1].start()
   }
 
   function background(time) {
@@ -89,18 +113,21 @@ $(function() {
   socket.on('connect', () => {
     initSequencer();
     socket.on('broadcast', (data) => {
-
+        displayname = data.name;
         if (nowPerson < maxPerson) {
+            musicOrder.push(13);
             for (var i=0; i<maxOrder; i++) {
+                if (data.sequencer[i] == -1) data.sequencer[i] = 14;
                 musicOrder.push(data.sequencer[i]);
             }
-            musicOrder.push(-1);
         } else {
             var offset = (nowPerson % maxPerson)*(maxOrder+1);
+            musicOrder[offset] = 13;
             for (var i=0; i<maxOrder; i++) {
-                musicOrder[i+offset] = data.sequencer[i];
+                if (data.sequencer[i] == -1) data.sequencer[i] = 14;
+                musicOrder[1+i+offset] = data.sequencer[i];
             }
-            musicOrder[maxOrder+1+offset] = -1;
+            
         }
         nowPerson++;
         //musicOrder = data.sequencer;
@@ -353,8 +380,6 @@ $(function() {
           // SPACE
           case 32:
             index = '3,0';
-            soundInd = (soundInd+1)%2;
-            soundPlayer= soundPlayers[soundInd];
             break;
         }
 

@@ -14,18 +14,18 @@ var vm = new Vue({
     bgFile: 'sasa.mp3',
     melodyFile: 'Meloday_8bar_bpm76.wav',
     soundFile: [
-      '0.wav', 
       'V1.wav',
-      '2.wav',
-      '3.wav',
-      '4.wav',
+      'New1.wav', 
+      'New2.wav',
       'V2.wav',
-      '6.wav',
+      'New3.wav',
       'V3.wav',
-      '8.wav',
-      '9.wav',
+      'New4.wav',
       'V4.wav',
-      '11.wav'],
+      'New5.wav',
+      'New6.wav',
+      'New7.wav',
+      'New8.wav'],
     soundPlayer: [],
     bgPlayer: null,
     bgFixPlay: false,
@@ -34,7 +34,7 @@ var vm = new Vue({
     playState: "triangle-copy-2",
     userName: "",
     soundInd: [],
-    melodyArray: [2, 6, 8, 11]
+    melodyArray: [1, 4, 6, 8]
   },
   mounted() {
 
@@ -47,7 +47,7 @@ var vm = new Vue({
 
     for (var i=0; i<this.soundFile.length; i++) {
       this.soundPlayer[i] = new Tone.Player(this.soundDir + this.soundFile[i]).toMaster()
-      this.soundPlayer[i].volume.value = -12;
+      //this.soundPlayer[i].volume.value = -12;
     }
 
     // var value = -1;
@@ -142,7 +142,6 @@ var vm = new Vue({
             if (this.nowOrder+r > 15) break;
           }
         }
-        console.log(this.nowOrder);
         this.$set(this.musicOrder, this.nowOrder, ind);
         this.nowOrder++;
         if (this.nowOrder > 15) break;
@@ -168,7 +167,6 @@ var vm = new Vue({
       //if (this.nowPlayOrder != -1 && this.nowPlayOrder != this.maxOrder-1) 
       if (this.nowOrder > 0) this.stopMusic(this.musicOrder[this.nowOrder-1]);
 
-      console.log("nowMelody:"+this.nowMelody+ ", playOrder:"+this.nowPlayOrder);
       if (this.nowMelody > -1 && this.nowPlayOrder > -1 && this.nowPlayOrder < 15
           && (this.nowPlayOrder - this.nowMelody) < 3) 
         this.bgFixPlay = true;
