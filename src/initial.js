@@ -2,7 +2,7 @@ initial()
 
 
 function initial() {
-    bodyScrollLock.disableBodyScroll(window);
+    // bodyScrollLock.disableBodyScroll(window);
     disableZoom()
 }
 

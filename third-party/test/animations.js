@@ -2968,12 +2968,13 @@ shape.noStroke().fill = colors.white;
 
     var update = function() {
       var shapTexture = BGTexture_sub
-      shapTexture.scale =  1.1;
+
+      shapTexture.scale = 1.1;
       shapTexture._offset.x = -20
       shapTexture._offset.y = 300
       shapTexture.repeat = 'repeat';
+      shape.fill = shapTexture
 
-      shape.fill = shapTexture;
     };
     var resize = function() {
       distance = height / 6;
