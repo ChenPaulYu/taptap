@@ -130,7 +130,7 @@
              					img/game/rotate-ccw@3x.png 3x"/>
 				</div>
 				<div class="col-2" @click="play()">
-					<img src="./img/game/triangle-copy-2.png"/>
+					<img :src="playStateImg"/>
 				</div>
 				<div class="col-3 panel-send" @click="sendMusic();">
 					<span class="text">SEND</span>
