@@ -34,7 +34,7 @@ var vm = new Vue({
     playState: "triangle-copy-2",
     userName: "",
     soundInd: [],
-    melodyArray: [2, 6, 8, 11]
+    melodyArray: [1, 4, 6, 8]
   },
   mounted() {
 
