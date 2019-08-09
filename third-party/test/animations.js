@@ -16,6 +16,8 @@ var isSafari = jQuery('html').hasClass('safari');
 var isMobile = has.Android || has.Blackberry || has.iOS || has.OperaMini || has.Windows || has.WebOS;
 var PosterTexture = new Two.Texture('./img/screen/concert.png')
 var BGTexture = new Two.Texture('./img/screen/bg.jpg')
+
+var BGTexture_sub = new Two.Texture('./img/screen/bg.jpg')
 var logoTexture = [new Two.Texture('./img/screen/VA-Log-Orange.png'), new Two.Texture('./img/screen/VA-Logo-Black.png'), new Two.Texture('./img/screen/VA-Logo-BG-Black.png')]
 var displayname = 'vocal Asia'
 window.animations = (function() {
@@ -352,6 +354,7 @@ window.animations = (function() {
     timer.cap = 'butt';
     timer.linewidth = min_dimension / 10;
     var texture = BGTexture
+    BGTexture.scale = 1
     texture.repeat = 'repeat'; 
     texture.scale = 2;
     timer.fill = texture;
@@ -474,29 +477,17 @@ window.animations = (function() {
     //var shape = two.makePolygon(points);
         
     var circle = two.makeCircle(points[0], 0, points[1]+500);
-	var rect = two.makeRectangle(-points[1]-500, 0, points[0]+500, points[0]+500);
+	  var rect = two.makeRectangle(-points[1]-500, 0, points[0]+500, points[0]+500);
 	
-	if(!isSafari && !isMobile){
-		var circleTexture = new Two.Texture('./img/screen/concert.png')
-	var rectTexture = new Two.Texture('./img/screen/concert.png')
-	circleTexture.repeat = 'repeat';
-	rectTexture.repeat = 'repeat';
-	circle.fill = circleTexture;
-	rect.fill = rectTexture;
-	
-	circleTexture.scale = 2;
-	rectTexture.scale = 2;
-	}
-	else{
 		circle.fill = colors.white;
 		rect.fill = colors.black;
-	}
 	
 	
-	var group = two.makeGroup(circle, rect);
-	group.translation.set(two.width / 2, two.height / 2);
-	group.scale = 0;
-	group.noStroke();
+	
+    var group = two.makeGroup(circle, rect);
+    group.translation.set(two.width / 2, two.height / 2);
+    group.scale = 0;
+    group.noStroke();
 	
     
 
@@ -1365,37 +1356,39 @@ var dotted_spiral = (function () {
 
     var playing = false;
     var callback = _.identity;
-    var amount = 15, r1 = min_dimension * 30 / 900,
-      r2 = min_dimension * 40 / 900, theta, deviation, distance = width;
-	
-	var images = [4, 6, 7];
-	var imCount = 0;
-	
+    var amount = 15,
+      r1 = min_dimension * 30 / 900,
+      r2 = min_dimension * 40 / 900,
+      theta, deviation, distance = width;
+
+    var images = [4, 6, 7];
+    var imCount = 0;
+
     var destinations = [];
-    var circles = _.map(_.range(amount), function(i) {
+    var circles = _.map(_.range(amount), function (i) {
       var r = Math.round(map(Math.random(), 0, 1, r1, r2));
       var circle = two.makeCircle(0, 0, r);
       circle.property = PROPERTIES[Math.floor(Math.random() * PROPERTIES.length)];
-      if(!isSafari && !isMobile){
-      	var cirTexture = new Two.Texture('./img/screen/concert.png')
-      cirTexture.repeat = 'repeat';
-      cirTexture.scale= 0.2;
-      if(imCount < (images.length-1)){
-      	imCount++;
-      }else{
-      	imCount=0;
+      if (!isSafari && !isMobile) {
+        var cirTexture = new Two.Texture('./img/screen/concert.png')
+        cirTexture.repeat = 'repeat';
+        cirTexture.scale = 0.2;
+        if (imCount < (images.length - 1)) {
+          imCount++;
+        } else {
+          imCount = 0;
+        }
+        //circle.fill = colors[circle.property];
+        circle.fill = cirTexture;
+      } else {
+        circle.fill = colors[circle.property];
       }
-      //circle.fill = colors[circle.property];
-      circle.fill = cirTexture;
-      }
-      else{
-      	circle.fill = colors[circle.property];
-      }
-      
+
       circle.noStroke();
       destinations.push(new Two.Vector());
       return circle;
     });
+
 
     var group = two.makeGroup(circles);
     // group.translation.set(center.x, center.y);
@@ -2947,12 +2940,16 @@ shape.noStroke().fill = colors.white;
     var theta = TWO_PI * 3;
     var x = r1 * Math.cos(theta);
     var y = r1 * Math.sin(theta);
+    
           
     //var shape = two.makePolygon(points);
     var shape = two.makeCircle(x, y, r2);
-    var shapTexture = new Two.Texture('./img/screen/concert.png')
-    shapTexture.scale =  0.8;
+    var shapTexture = BGTexture_sub
+    shapTexture.scale =  1.1;
+    shapTexture._offset.x = -20
+    shapTexture._offset.y = 300
     shapTexture.repeat = 'repeat';
+
     shape.fill = shapTexture;
    
     shape.noStroke();

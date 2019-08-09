@@ -61,6 +61,7 @@ $(function() {
     //nowPlayOrder = -1;
 
     Tone.Transport.start();
+    
     console.log("start sequencer");
   }
 
