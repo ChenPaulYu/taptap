@@ -49,9 +49,10 @@ var vm = new Vue({
     for (var i=0; i<this.soundFile.length; i++) {
       this.soundPlayer[i] = new Tone.Player(this.soundDir + this.soundFile[i], () => {
           this.loaded += 1
-          if(this.loaded > 10 ) {
-            this.preloadFinish()
-          }
+          this.preloadFinish()
+          // if(this.loaded > 10 ) {
+          //   this.preloadFinish()
+          // }
       }).toMaster()
       //this.soundPlayer[i].volume.value = -12;
     }
