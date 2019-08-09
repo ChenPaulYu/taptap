@@ -2967,10 +2967,12 @@ shape.noStroke().fill = colors.white;
     start.onComplete = reset;
 
     var update = function() {
-      var shapTexture = new Two.Texture('./img/screen/concert.png')
-      shapTexture.scale = 0.8;
+      var shapTexture = BGTexture_sub
+      shapTexture.scale = 1.1;
+      shapTexture._offset.x = -20
+      shapTexture._offset.y = 300
       shapTexture.repeat = 'repeat';
-      shape.fill = shapTexture;
+      shape.fill = shapTexture
     };
     var resize = function() {
       distance = height / 6;
