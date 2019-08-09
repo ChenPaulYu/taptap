@@ -14,18 +14,18 @@ var vm = new Vue({
     bgFile: 'sasa.mp3',
     melodyFile: 'Meloday_8bar_bpm76.wav',
     soundFile: [
-      '0.wav', 
       'V1.wav',
-      '2.wav',
-      '3.wav',
-      '4.wav',
+      'New1.wav', 
+      'New2.wav',
       'V2.wav',
-      '6.wav',
+      'New3.wav',
       'V3.wav',
-      '8.wav',
-      '9.wav',
+      'New4.wav',
       'V4.wav',
-      '11.wav'],
+      'New5.wav',
+      'New6.wav',
+      'New7.wav',
+      'New8.wav'],
     soundPlayer: [],
     bgPlayer: null,
     bgFixPlay: false,
@@ -47,7 +47,7 @@ var vm = new Vue({
 
     for (var i=0; i<this.soundFile.length; i++) {
       this.soundPlayer[i] = new Tone.Player(this.soundDir + this.soundFile[i]).toMaster()
-      this.soundPlayer[i].volume.value = -12;
+      //this.soundPlayer[i].volume.value = -12;
     }
 
     // var value = -1;

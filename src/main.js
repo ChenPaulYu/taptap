@@ -7,23 +7,23 @@ $(function() {
   var maxPerson = 10;
   var soundDir= './sound/new_sample/';
   var soundFiles = [
-      '0.wav', 
       'V1.wav',
-      '2.wav',
-      '3.wav',
-      '4.wav',
+      'New1.wav', 
+      'New2.wav',
       'V2.wav',
-      '6.wav',
+      'New3.wav',
       'V3.wav',
-      '8.wav',
-      '9.wav',
+      'New4.wav',
       'V4.wav',
-      '11.wav',
+      'New5.wav',
+      'New6.wav',
+      'New7.wav',
+      'New8.wav',
       'BalaBalaBa.wav',
       'sasa.mp3'];
   var soundPlayer= [];
   var bgPlayer= null;
-  var melodyArray= [2, 6, 8, 11];
+  var melodyArray= [1, 4, 6, 8];
 
   function stopMusic(ind) {
     soundPlayer[ind-1].stop();
@@ -36,6 +36,7 @@ $(function() {
 
     Tone.Transport.bpm.value = 76
     Tone.Transport.scheduleRepeat(repeat, '2n');
+    Tone.Transport.scheduleRepeat(animateRepeat, '2n', '0:1:0');
   }
 
   function startSequencer() {
@@ -68,14 +69,38 @@ $(function() {
         playMusic(ind);
           
       }
+      trigger(mapping[ind], true);
+      triggered();
     }
    
   }
 
+  function animateRepeat() {
+    if (musicOrder[nowPlayOrder] != 13) {
+      trigger(randTrigger(), true);
+      triggered();
+    } else {
+      trigger('0,0', true);
+      trigger('3,0', true);
+      triggered();
+    }
+  }
+
+  function randTrigger() {
+    var row = Math.floor(Math.random()*3);
+    var colume;
+    if (row == 0) {
+      colume = Math.floor(Math.random()*8+1)
+    } else if (row == 1) {
+      colume = Math.floor(Math.random()*7+1)
+    } else {
+      colume = Math.floor(Math.random()*5+1)
+    }
+    return row + "," + colume;
+  }
+
   function playMusic(ind) {
     soundPlayer[ind-1].start()
-    trigger(mapping[ind], true);
-    triggered();
   }
 
   function background(time) {
@@ -88,20 +113,21 @@ $(function() {
   socket.on('connect', () => {
     initSequencer();
     socket.on('broadcast', (data) => {
-
+        displayname = data.name;
         if (nowPerson < maxPerson) {
+            musicOrder.push(13);
             for (var i=0; i<maxOrder; i++) {
                 if (data.sequencer[i] == -1) data.sequencer[i] = 14;
                 musicOrder.push(data.sequencer[i]);
             }
-            musicOrder.push(13);
         } else {
             var offset = (nowPerson % maxPerson)*(maxOrder+1);
+            musicOrder[offset] = 13;
             for (var i=0; i<maxOrder; i++) {
                 if (data.sequencer[i] == -1) data.sequencer[i] = 14;
-                musicOrder[i+offset] = data.sequencer[i];
+                musicOrder[1+i+offset] = data.sequencer[i];
             }
-            musicOrder[maxOrder+1+offset] = 13;
+            
         }
         nowPerson++;
         //musicOrder = data.sequencer;
