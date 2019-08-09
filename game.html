@@ -146,10 +146,16 @@
                 What's your name
                 <input type="text" v-model="userName"> </input>
             </div>
-            <button slot="footer" type="button" class="game-modal-btn" 
-            		 v-if="modalStep==1" @click="sendOsc();nextStep();">
-                Send
-            </button>
+            <div slot="footer">
+            	<button class="whiteBtn game-modal-btn" type="button"
+		        		 v-if="modalStep==1" @click="closeModal();">
+		            Cancel
+		        </button>
+            	<button class="greenBtn game-modal-btn" type="button" v-if="modalStep==1" @click="sendOsc();nextStep();">
+		            Send
+		        </button>
+            </div>
+            
 
             <div slot="body" v-if="modalStep==2" class="game-modal-success">
             	<img src="img/game/success-shape.svg" class="success-shape" />

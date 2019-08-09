@@ -16,10 +16,10 @@ var isSafari = jQuery('html').hasClass('safari');
 var isMobile = has.Android || has.Blackberry || has.iOS || has.OperaMini || has.Windows || has.WebOS;
 var PosterTexture = new Two.Texture('./img/screen/concert.png')
 var BGTexture = new Two.Texture('./img/screen/bg.jpg')
-
 var BGTexture_sub = new Two.Texture('./img/screen/bg.jpg')
 var logoTexture = [new Two.Texture('./img/screen/VA-Log-Orange.png'), new Two.Texture('./img/screen/VA-Logo-Black.png'), new Two.Texture('./img/screen/VA-Logo-BG-Black.png')]
 var displayname = 'vocal Asia'
+var okaiTexture = [new Two.Texture('./img/screen/okai1.jpg'), new Two.Texture('./img/screen/okai2.jpg'), new Two.Texture('./img/screen/okai3.jpg'), new Two.Texture('./img/screen/okai4.jpg')]
 window.animations = (function() {
 
   var container = document.querySelector('#content');
@@ -1086,7 +1086,7 @@ window.animations = (function() {
           return;
         } 
         text.size = 100
-        text.value = displayname.toUpperCase()
+        text.value = String(displayname).toUpperCase();
         text.translation.set(two.width * Math.random(), two.height * Math.random());
         shape.visible = Math.random() > 0.5;
         text.visible = Math.random() > 0.5;
@@ -2967,9 +2967,12 @@ shape.noStroke().fill = colors.white;
     start.onComplete = reset;
 
     var update = function() {
-      var shapTexture = new Two.Texture('./img/screen/concert.png')
-      shapTexture.scale = 0.8;
+      var shapTexture = BGTexture_sub
+      shapTexture.scale =  1.1;
+      shapTexture._offset.x = -20
+      shapTexture._offset.y = 300
       shapTexture.repeat = 'repeat';
+
       shape.fill = shapTexture;
     };
     var resize = function() {

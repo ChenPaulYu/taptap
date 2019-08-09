@@ -265,6 +265,8 @@ html, body {
 .game-modal-footer {
   padding: 0px 20px 20px;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .game-modal-header {
@@ -275,7 +277,7 @@ html, body {
 
 .game-modal-footer {
   /*border-top: 1px solid #eeeeee;*/
-  justify-content: flex-end;
+  /*justify-content: flex-end;*/
 }
 
 .game-modal-body {
@@ -313,13 +315,23 @@ html, body {
   background: transparent;
 }
 
+.greenBtn {
+  background-color: var(--tealish);
+  color: white;
+  border: 0px;
+}
+
+.whiteBtn {
+  background-color: white;
+  color: var(--tealish);
+  border: 1px solid  var(--tealish);
+}
+
 .game-modal-btn {
   width: 82px;
   height: 30px;
   border-radius: 3px;
-  background-color: var(--tealish);
-  color: white;
-  border: 0px;
+  
 }
 
 .game-modal-success img, .game-modal-success span{

@@ -1,5 +1,6 @@
 $(function() {
   var musicOrder = [];
+  var userName = [];
   var nowPerson = 0;
   var nowPlayOrder = -1;
   var nowMelody = -5;
@@ -52,7 +53,6 @@ $(function() {
 
     nowPlayOrder = (nowPlayOrder + 1) % musicOrder.length;
     var ind = musicOrder[nowPlayOrder];
-
     if (nowPlayOrder%(maxOrder+1) == maxOrder) {
       if (musicOrder[nowPlayOrder-1] != -1) stopMusic(musicOrder[nowPlayOrder-1]);
       nowMelody = -5;
@@ -67,7 +67,10 @@ $(function() {
       } else {
         nowMelody = -5;
         playMusic(ind);
-          
+        if (ind == 13) {
+          var nowP = Math.floor(nowPlayOrder/(maxOrder+1));
+          displayname = userName[nowP];
+        }
       }
       trigger(mapping[ind], true);
       triggered();
@@ -76,10 +79,11 @@ $(function() {
   }
 
   function animateRepeat() {
+    if (musicOrder[nowPlayOrder] == 14) return;
     if (musicOrder[nowPlayOrder] != 13) {
       trigger(randTrigger(), true);
       triggered();
-    } else {
+    } else{
       trigger('0,0', true);
       trigger('3,0', true);
       triggered();
@@ -95,6 +99,10 @@ $(function() {
       colume = Math.floor(Math.random()*7+1)
     } else {
       colume = Math.floor(Math.random()*5+1)
+    }
+    if (row == 1 && colume == 7) {
+      row = 1;
+      colume = 1;
     }
     return row + "," + colume;
   }
@@ -113,8 +121,8 @@ $(function() {
   socket.on('connect', () => {
     initSequencer();
     socket.on('broadcast', (data) => {
-        displayname = data.name;
         if (nowPerson < maxPerson) {
+            userName.push(data.name);
             musicOrder.push(13);
             for (var i=0; i<maxOrder; i++) {
                 if (data.sequencer[i] == -1) data.sequencer[i] = 14;
@@ -122,6 +130,7 @@ $(function() {
             }
         } else {
             var offset = (nowPerson % maxPerson)*(maxOrder+1);
+            userName[(nowPerson % maxPerson)] = data.name;
             musicOrder[offset] = 13;
             for (var i=0; i<maxOrder; i++) {
                 if (data.sequencer[i] == -1) data.sequencer[i] = 14;
@@ -129,6 +138,7 @@ $(function() {
             }
             
         }
+        console.log(userName);
         nowPerson++;
         //musicOrder = data.sequencer;
         if (nowPerson == 1) 
