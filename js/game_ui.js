@@ -39,8 +39,7 @@ var vm = new Vue({
   },
   mounted() {
     
-    this.bgPlayer = new Tone.Player("./sound/" + this.melodyFile, ()
-    }).toMaster()
+    this.bgPlayer = new Tone.Player("./sound/" + this.melodyFile).toMaster()
     //this.bgPlayer = new Tone.Player(this.soundDir + this.bgFile).toMaster()
 
     for (var i=0; i<this.maxOrder; i++) {
@@ -49,10 +48,10 @@ var vm = new Vue({
 
     for (var i=0; i<this.soundFile.length; i++) {
       this.soundPlayer[i] = new Tone.Player(this.soundDir + this.soundFile[i], () => {
-        this.loaded += 1
-        if (this.loaded == 13) {
-          this.preloadFinish()
-        }
+          this.loaded += 1
+          if(this.loaded > 10 ) {
+            this.preloadFinish()
+          }
       }).toMaster()
       //this.soundPlayer[i].volume.value = -12;
     }
@@ -259,6 +258,7 @@ var vm = new Vue({
         }.bind(this), 1000);
       }
     }, 
+
     preloadFinish() {
       if($('.spinner-preloader-wrap').length){
         $('.spinner-preloader-wrap').fadeOut(500);
