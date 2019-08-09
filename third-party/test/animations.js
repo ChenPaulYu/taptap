@@ -2,7 +2,7 @@
 var animationRatio = url.int('resolution', 100) / 100;
 var two = new Two({
   type: (url.boolean('canvas') || (has.mobile && has.iOS) || (!has.mobile && has.Firefox)) ? Two.Types.canvas : Two.Types.svg
-  // fullscreen: true
+  //fullscreen: true
 }).appendTo(document.querySelector('#content'));
 
 two.renderer.domElement.id = 'stage';
@@ -12,7 +12,12 @@ two.renderer.domElement.id = 'stage';
  */
 
 var TWO_PI = Math.PI * 2;
-
+var isSafari = jQuery('html').hasClass('safari');
+var isMobile = has.Android || has.Blackberry || has.iOS || has.OperaMini || has.Windows || has.WebOS;
+var PosterTexture = new Two.Texture('./img/screen/concert.png')
+var BGTexture = new Two.Texture('./img/screen/bg.jpg')
+var logoTexture = [new Two.Texture('./img/screen/VA-Log-Orange.png'), new Two.Texture('./img/screen/VA-Logo-Black.png'), new Two.Texture('./img/screen/VA-Logo-BG-Black.png')]
+var displayname = 'vocal Asia'
 window.animations = (function() {
 
   var container = document.querySelector('#content');
@@ -31,82 +36,277 @@ window.animations = (function() {
 
   var Easing = TWEEN.Easing;
   var PROPERTIES = ['background', 'middleground', 'foreground', 'highlight', 'accent', 'white', 'black'];
-  var PALETTE = [
-    {
+  var PALETTE = [{
       // Grey
-      background: { r: 181, g: 181, b: 181 },
-      middleground: { r: 141, g: 164, b: 170 },
-      foreground: { r: 227, g: 79, b: 12 },
-      highlight: { r: 163, g: 141, b: 116 },
-      accent: { r: 255, g: 197, b: 215 },
-      white: { r: 255, g: 255, b: 255 },
-      black: { r: 0, g: 0, b: 0 },
+      background: {
+        r: 181,
+        g: 181,
+        b: 181
+      },
+      middleground: {
+        r: 141,
+        g: 164,
+        b: 170
+      },
+      foreground: {
+        r: 227,
+        g: 79,
+        b: 12
+      },
+      highlight: {
+        r: 163,
+        g: 141,
+        b: 116
+      },
+      accent: {
+        r: 255,
+        g: 197,
+        b: 215
+      },
+      white: {
+        r: 255,
+        g: 255,
+        b: 255
+      },
+      black: {
+        r: 0,
+        g: 0,
+        b: 0
+      },
       isDark: false
     },
     {
       // White
-      background: { r: 255, g: 230, b: 255 },
-      middleground: { r: 151, g: 41, b: 164 },
-      foreground: { r: 1, g: 120, b: 186 },
-      highlight: { r: 255, g: 255, b: 0 },
-      accent: { r: 255, g: 51, b: 148 },
-      white: { r: 255, g: 255, b: 255 },
-      black: { r: 255, g: 255, b: 255 },
+      background: {
+        r: 255,
+        g: 230,
+        b: 255
+      },
+      middleground: {
+        r: 151,
+        g: 41,
+        b: 164
+      },
+      foreground: {
+        r: 1,
+        g: 120,
+        b: 186
+      },
+      highlight: {
+        r: 255,
+        g: 255,
+        b: 0
+      },
+      accent: {
+        r: 255,
+        g: 51,
+        b: 148
+      },
+      white: {
+        r: 255,
+        g: 255,
+        b: 255
+      },
+      black: {
+        r: 255,
+        g: 255,
+        b: 255
+      },
       isDark: false
     },
     {
       // Orange
-      background: { r: 217, g: 82, b: 31 },
-      middleground: { r: 143, g: 74, b: 45 },
-      foreground: { r: 255, g: 108, b: 87 },
-      highlight: { r: 255, g: 126, b: 138 },
-      accent: { r: 227, g: 190, b: 141 },
-      white: { r: 255, g: 255, b: 255 },
-      black: { r: 0, g: 0, b: 0 },
+      background: {
+        r: 217,
+        g: 82,
+        b: 31
+      },
+      middleground: {
+        r: 143,
+        g: 74,
+        b: 45
+      },
+      foreground: {
+        r: 255,
+        g: 108,
+        b: 87
+      },
+      highlight: {
+        r: 255,
+        g: 126,
+        b: 138
+      },
+      accent: {
+        r: 227,
+        g: 190,
+        b: 141
+      },
+      white: {
+        r: 255,
+        g: 255,
+        b: 255
+      },
+      black: {
+        r: 0,
+        g: 0,
+        b: 0
+      },
       isDark: false
     },
     {
       // Blue
-      background: { r: 57, g: 109, b: 193 },
-      middleground: { r: 186, g: 60, b: 223 },
-      foreground: { r: 213, g: 255, b: 93 },
-      highlight: { r: 213, g: 160, b: 255 },
-      accent: { r: 36, g: 221, b: 165 },
-      white: { r: 215, g: 236, b: 255 },
-      black: { r: 0, g: 0, b: 0 },
+      background: {
+        r: 57,
+        g: 109,
+        b: 193
+      },
+      middleground: {
+        r: 186,
+        g: 60,
+        b: 223
+      },
+      foreground: {
+        r: 213,
+        g: 255,
+        b: 93
+      },
+      highlight: {
+        r: 213,
+        g: 160,
+        b: 255
+      },
+      accent: {
+        r: 36,
+        g: 221,
+        b: 165
+      },
+      white: {
+        r: 215,
+        g: 236,
+        b: 255
+      },
+      black: {
+        r: 0,
+        g: 0,
+        b: 0
+      },
       isDark: true
     },
     {
       // Cream
-      background: { r: 255, g: 244, b: 211 },
-      middleground: { r: 207, g: 145, b: 79 },
-      foreground: { r: 38, g: 83, b: 122 },
-      highlight: { r: 178, g: 87, b: 53 },
-      accent: { r: 235, g: 192, b: 92 },
-      white: { r: 226, g: 82, b: 87 },
-      black: { r: 0, g: 0, b: 0 },
+      background: {
+        r: 255,
+        g: 244,
+        b: 211
+      },
+      middleground: {
+        r: 207,
+        g: 145,
+        b: 79
+      },
+      foreground: {
+        r: 38,
+        g: 83,
+        b: 122
+      },
+      highlight: {
+        r: 178,
+        g: 87,
+        b: 53
+      },
+      accent: {
+        r: 235,
+        g: 192,
+        b: 92
+      },
+      white: {
+        r: 226,
+        g: 82,
+        b: 87
+      },
+      black: {
+        r: 0,
+        g: 0,
+        b: 0
+      },
       isDark: false
     },
     {
       // Purple
-      background: { r: 39, g: 6, b: 54 },
-      middleground: { r: 69, g: 26, b: 87 },
-      foreground: { r: 252, g: 25, b: 246 },
-      highlight: { r: 52, g: 255, b: 253 },
-      accent: { r: 133, g: 102, b: 193 },
-      white: { r: 253, g: 228, b: 252 },
-      black: { r: 255, g: 255, b: 255 },
+      background: {
+        r: 39,
+        g: 6,
+        b: 54
+      },
+      middleground: {
+        r: 69,
+        g: 26,
+        b: 87
+      },
+      foreground: {
+        r: 252,
+        g: 25,
+        b: 246
+      },
+      highlight: {
+        r: 52,
+        g: 255,
+        b: 253
+      },
+      accent: {
+        r: 133,
+        g: 102,
+        b: 193
+      },
+      white: {
+        r: 253,
+        g: 228,
+        b: 252
+      },
+      black: {
+        r: 255,
+        g: 255,
+        b: 255
+      },
       isDark: true
     },
     {
       // Red Bull
-      background: { r: 215, g: 205, b: 190 },
-      middleground: { r: 100, g: 200, b: 175 },
-      foreground: { r: 255, g: 240, b: 50 },
-      highlight: { r: 255, g: 100, b: 130 },
-      accent: { r: 100, g: 75, b: 120 },
-      white: { r: 255, g: 255, b: 255 },
-      black: { r: 33, g: 33, b: 33 },
+      background: {
+        r: 215,
+        g: 205,
+        b: 190
+      },
+      middleground: {
+        r: 100,
+        g: 200,
+        b: 175
+      },
+      foreground: {
+        r: 255,
+        g: 240,
+        b: 50
+      },
+      highlight: {
+        r: 255,
+        g: 100,
+        b: 130
+      },
+      accent: {
+        r: 100,
+        g: 75,
+        b: 120
+      },
+      white: {
+        r: 255,
+        g: 255,
+        b: 255
+      },
+      black: {
+        r: 33,
+        g: 33,
+        b: 33
+      },
       isDark: false
     }
   ];
@@ -128,84 +328,131 @@ window.animations = (function() {
 
   var wipe = (function() {
 
+
     var callback = _.identity;
     var playing = false;
+    var amount = 32, radius = min_dimension / 3;
 
-    var direction = true;
-    var points = [
-      new Two.Anchor(- center.x, -center.y),
-      new Two.Anchor(center.x, - center.y),
-      new Two.Anchor(center.x, center.y),
-      new Two.Anchor(- center.x, center.y)
-    ];
-    var shape = two.makePolygon(points);
-    shape.fill = colors.middleground;
-    shape.noStroke();
+    var points = _.map(_.range(amount), function(i) {
+
+      var pct = i / (amount - 1);
+      var theta = pct * TWO_PI;
+      var x = radius * Math.cos(theta);
+      var y = radius * Math.sin(theta);
+
+      return new Two.Anchor(x, y);
+
+    });
+
+    points.push(points[0].clone(), points[1].clone());
+
+    var timer = two.makeCurve(points, true);
+    // timer.stroke = "lavender";
+    timer.noStroke();
+    timer.cap = 'butt';
+    timer.linewidth = min_dimension / 10;
+    var texture = BGTexture
+    texture.repeat = 'repeat'; 
+    texture.scale = 2;
+    timer.fill = texture;
+	
+
+   
+    timer.translation.set(center.x, center.y);
+  
+	// Textures fill as patterns on any Two.Path
+	
 
     var start = function(onComplete, silent) {
-      playing = true;
-      shape.visible = true;
-      animate_in.start();
+      timer.visible = true;
+      _in.start();
       if (!silent && exports.sound) {
         exports.sound.stop().play();
       }
       if (_.isFunction(onComplete)) {
         callback = onComplete;
+        
       }
     };
 
     start.onComplete = reset;
 
+    var resizePoints = function(v, i) {
+      var pct = i / amount;
+      var theta = pct * TWO_PI;
+      var x = radius * Math.cos(theta);
+      var y = radius * Math.sin(theta);
+      v.set(x, y);
+    };
+
     var update = function() {
-      shape.fill = colors.middleground;
+      var texture = BGTexture
+      texture.repeat = 'repeat';
+      texture.scale = 2;
+      timer.fill = texture;
     };
     var resize = function() {
-      points[0].set(- center.x, - center.y);
-      points[1].set(center.x, - center.y);
-      points[2].set(center.x, center.y);
-      points[3].set(- center.x, center.y);
+      timer.translation.set(center.x, center.y);
+      radius = min_dimension / 3;
+      timer.linewidth = min_dimension / 10;
+      _.each(points, resizePoints);
     };
 
-    var dest_in = { x: center.x }, dest_out = { x: width * 1.5 };
+    var diretion = true, options = {
+      beginning: 0,
+      ending: 0
+    };
 
-    var animate_in = new TWEEN.Tween(shape.translation)
-      .to(dest_in, duration * 0.5)
-      .easing(Easing.Exponential.Out)
+    var _in = new TWEEN.Tween(options)
+      .to({ ending: 1 }, duration / 3)
+      .easing(Easing.Sinusoidal.Out)
+      .onUpdate(function() {
+        if (direction) {
+          timer.ending = options.ending;
+        } else {
+          timer.beginning = 1 - options.ending;
+        }
+      })
+      .onStart(function() {
+        playing = true;
+      })
       .onComplete(function() {
-        animate_out.start();
+        _out.start();        
       });
 
-    var animate_out = new TWEEN.Tween(shape.translation)
-      .to(dest_out, duration * 0.5)
-      .easing(Easing.Exponential.In)
+    var _out = new TWEEN.Tween(options)
+      .to({ beginning: 1 }, duration / 3)
+      .easing(Easing.Sinusoidal.In)
+      .onUpdate(function() {
+        if (direction) {
+          timer.beginning = options.beginning;
+        } else {
+          timer.ending = 1 - options.beginning;
+        }
+      })
       .onComplete(function() {
         start.onComplete();
-        callback();
+        callback();        
       });
 
-    reset();
-
     function reset() {
-      shape.visible = false;
-      playing = false;
       direction = Math.random() > 0.5;
-      if (direction) {
-        shape.translation.set(- center.x, center.y);
-        dest_out.x = width * 1.5;
-      } else {
-        shape.translation.set(width * 1.5, center.y);
-        dest_out.x = - center.x;
-      }
-      dest_in.x = center.x;
-      animate_in.stop();
-      animate_out.stop();
+      timer.visible = false;
+      timer.rotation = TWO_PI * Math.random();
+      options.ending = options.beginning = 0;
+      timer.ending = timer.beginning = direction ? 0 : 1;
+      playing = false;
+      _in.stop();
+      _out.stop();
     }
+
+    reset();
 
     var exports = {
       start: start,
       update: update,
-      resize: resize,
       clear: reset,
+      resize: resize,
       playing: function() { return playing; },
       hash: '2,1',
       filename: 'wipe'
@@ -223,19 +470,45 @@ window.animations = (function() {
     var playing = false;
 
     var direction = true;
-    var points = [
-      new Two.Anchor(- center.x, - center.y),
-      new Two.Anchor(center.x, - center.y),
-      new Two.Anchor(center.x, center.y),
-      new Two.Anchor(- center.x, center.y)
-    ];
-    var shape = two.makePolygon(points);
-    shape.fill = colors.highlight;
-    shape.noStroke();
+    var points = [center.x, center.y];
+    //var shape = two.makePolygon(points);
+        
+    var circle = two.makeCircle(points[0], 0, points[1]+500);
+	var rect = two.makeRectangle(-points[1]-500, 0, points[0]+500, points[0]+500);
+	
+	if(!isSafari && !isMobile){
+		var circleTexture = new Two.Texture('./img/screen/concert.png')
+	var rectTexture = new Two.Texture('./img/screen/concert.png')
+	circleTexture.repeat = 'repeat';
+	rectTexture.repeat = 'repeat';
+	circle.fill = circleTexture;
+	rect.fill = rectTexture;
+	
+	circleTexture.scale = 2;
+	rectTexture.scale = 2;
+	}
+	else{
+		circle.fill = colors.white;
+		rect.fill = colors.black;
+	}
+	
+	
+	var group = two.makeGroup(circle, rect);
+	group.translation.set(two.width / 2, two.height / 2);
+	group.scale = 0;
+	group.noStroke();
+	
+    
 
     var start = function(onComplete, silent) {
       playing = true;
-      shape.visible = true;
+      group.visible = true;
+      if (group.scale > 0.9999) {
+	    group.scale = group.rotation = 0;
+	  }
+	  var t = (1 - group.scale) * 0.125;
+	  group.scale = t;
+	  group.rotation += t * 4 * Math.PI;
       animate_in.start();
       if (!silent && exports.sound) {
         exports.sound.stop().play();
@@ -248,25 +521,28 @@ window.animations = (function() {
     start.onComplete = reset;
 
     var update = function() {
-      shape.fill = colors.highlight;
+      if (group.scale > 0.9999) {
+	    group.scale = group.rotation = 0;
+	  }
+	  var t = (1 - group.scale) * 0.125;
+	  group.scale += t;
+	  group.rotation += t * 4 * Math.PI;
+	  
     };
     var resize = function() {
-      points[0].set(- center.x, - center.y);
-      points[1].set(center.x, - center.y);
-      points[2].set(center.x, center.y);
-      points[3].set(- center.x, center.y);
+        
     };
 
     var dest_in = { y: center.y }, dest_out = { y: 0 };
 
-    var animate_in = new TWEEN.Tween(shape.translation)
+    var animate_in = new TWEEN.Tween(group.translation)
       .to(dest_in, duration * 0.5)
       .easing(Easing.Exponential.Out)
       .onComplete(function() {
         animate_out.start();
       });
 
-    var animate_out = new TWEEN.Tween(shape.translation)
+    var animate_out = new TWEEN.Tween(group.translation)
       .to(dest_out, duration * 0.5)
       .easing(Easing.Exponential.In)
       .onComplete(function() {
@@ -277,14 +553,14 @@ window.animations = (function() {
     reset();
 
     function reset() {
-      shape.visible = false;
+      group.visible = false;
       playing = false;
       direction = Math.random() > 0.5;
       if (direction) {
-        shape.translation.set(center.x, - center.y);
+        group.translation.set(center.x, - center.y);
         dest_out.y = height * 1.5;
       } else {
-        shape.translation.set(center.x, height * 1.5);
+        group.translation.set(center.x, height * 1.5);
         dest_out.y = - center.y;
       }
       dest_in.y = center.y;
@@ -303,6 +579,7 @@ window.animations = (function() {
     };
 
     monome[exports.hash] = exports;
+
     return exports;
 
   })();
@@ -315,7 +592,13 @@ window.animations = (function() {
       var callback = _.identity;
       var playing = false;
 
-      var circles = [];
+      var circles = [];//naresh
+      var pointsArray = [];    
+        var theta1 = TWO_PI * 3;
+        var x = r1 * Math.cos(theta1);
+        var y = r1 * Math.sin(theta1);
+      pointsArray.push(new Two.Anchor(x, y, 0, 0, 0, 0, Two.Commands.move));
+      
       var points = _.map(_.range(amount), function(i) {
         var pct = i / amount;
         var theta = TWO_PI * pct;
@@ -325,15 +608,29 @@ window.animations = (function() {
         circle.fill = colors.black;
         circle.noStroke();
         circles.push(circle);
-        return new Two.Anchor(x, y);
+        pointsArray.push(new Two.Anchor(x, y, 0,0, 0, 0, Two.Commands.line));
+        return true;
       });
-
-      var prism = two.makePolygon(points);
-      prism.stroke = colors.black;
+  
+        //var prism = two.makePolygon(points);
+     
+     
+      var prism = new Two.Path(pointsArray, true, false, true);
+ 	  prism.stroke = colors.black;
       prism.noFill();
       prism.linewidth = 0.5;
+      two.add(prism);
+      
+       	       
 
       var group = two.makeGroup(prism).add(circles);
+
+      // var grpTexture = new Two.Texture('./img/screen/concert.png')
+      // grpTexture.repeat = 'repeat';
+      // grpTexture.scale = 0.3;
+      // group.fill = grpTexture;  
+      
+        
       group.translation.set(center.x, center.y);
 
       var options = { ending: 0 };
@@ -379,7 +676,7 @@ window.animations = (function() {
 
       function reset() {
         group.visible = false;
-        // group.rotation = Math.random() * TWO_PI;
+        group.rotation = Math.random() * TWO_PI;
         options.ending = group.scale = 0;
         playing = false;
         _in.stop();
@@ -428,9 +725,10 @@ window.animations = (function() {
     });
 
     var clay = two.makeCurve(points);
-    var texture = new Two.Texture('./img/screen/concert.png')
-    clay.fill = texture
-    clay.fill = colors.middleground;
+    
+    // curvetexture.repeat = 'repeat';
+    clay.fill = PosterTexture;
+
     clay.noStroke();
 
     points = clay.vertices;
@@ -449,7 +747,9 @@ window.animations = (function() {
     start.onComplete = reset;
 
     var update = function() {
-      clay.fill = colors.middleground;
+      clay.fill = PosterTexture;
+
+      // clay.fill = colors.middleground;
     };
     var resize = function() {};
 
@@ -565,30 +865,49 @@ window.animations = (function() {
 
       var amount = i * 4 + 1, w = width * 0.75, h = center.y;
       var begin, end;
+      
+      var imageCount = 1;      
 
       var group = two.makeGroup();
       group.translation.copy(center);
-
+      
       var shapes = _.map(_.range(amount), function(i) {
 
         var d = h / amount - h / (amount * 3);
         var x = 0;
         var y = - h / 2 + (i + 1) * (h / (amount + 1));
-
-        var shape = two.makeRectangle(x, y, w, d);
-
-        var texture = new Two.Texture('./img/screen/bg.jpg')
-        shape.fill = texture
-        shape.noStroke().fill = texture
+/*if(!isSafari && !isMobile){
+        var shape = two.makeRectangle(x, y, w, d+300);
+        shape.fill = "";
+       }
+       else{*/
+       	var shape = two.makeRectangle(x, y, w, d);
+       	shape.fill = colors.white;
+      /* } */
+        
+        
         shape.noStroke();
+        shape.visible = false;
 
         group.add(shape);
 
         return shape;
 
       });
+      
+     /* if(!isSafari && !isMobile){
+      	  var imagePath = "./images/kimbra1/6" + i + ".jpg";
+        var rectTexture = new Two.Texture(imagePath);
+        rectTexture.repeat = 'no-repeat';
+        rectTexture.scale = 2; 
+        rectTexture.fill = "lavender";
+                group.fill = rectTexture;
+      }*/
+    
 
       var options = { ending: 0, beginning: 0 };
+    
+      
 
       var showShape = function(shape) {
         shape.visible = true;
@@ -705,11 +1024,35 @@ window.animations = (function() {
       var callback = _.identity;
 
       var shape = two.makeRectangle(center.x, center.y, width, height);
+      var styles = {
+        size: width / 5,
+        alignment: center
+      };
+
+
+      var text = two.makeText(name, two.width/2 , two.height/2, styles);
+
+      text.noStroke()
+      text.fill = '#efefef';
+      text.family = 'Noto Sans'
+
+      
+      // var imagePath = "./images/kimbra1/6" + i + ".jpg?s";
+      var rectTexture = new Two.Texture('./img/screen/concert.png')
+      rectTexture.repeat = 'repeat';
+      rectTexture.scale = 2; 
+      shape.fill = rectTexture;
+      shape.noStroke();
+
+      shape.noStroke().fill = colors[PROPERTIES[PROPERTIES.length - 1 - (i % PROPERTIES.length)]];
+      
+
+
+
+      
       var timeout;
-      // shape.noStroke().fill = colors[PROPERTIES[PROPERTIES.length - 1 - (i % PROPERTIES.length)]];
-      var texture = new Two.Texture('./img/screen/concert.png')
-      shape.noStroke().fill = texture
       shape.visible = false;
+      text.visible = false;
 
       var start = function(onComplete, silent) {
         if (!_.isUndefined(timeout)) {
@@ -724,16 +1067,16 @@ window.animations = (function() {
           playing = false;
           callback();
           shape.visible = false;
-        }, duration * 0.25);
+          text.visible  = false
+        }, duration * 1);
         if (_.isFunction(onComplete)) {
           callback = onComplete;
         }
       };
 
       var update = function() {
-        var texture = new Two.Texture('https://i.imgur.com/DRmh6S9.jpg')
-        shape.fill = texture
         shape.fill = colors[PROPERTIES[PROPERTIES.length - 1 - (i % PROPERTIES.length)]];
+        text.fill = colors.white
       };
 
       var resize = function() {
@@ -745,11 +1088,17 @@ window.animations = (function() {
         shape.translation.copy(center);
       };
 
-      two.bind('update', function() {
+
+      two.bind('update', function () {
+       
         if (!playing) {
           return;
-        }
+        } 
+        text.size = 100
+        text.value = displayname.toUpperCase()
+        text.translation.set(two.width * Math.random(), two.height * Math.random());
         shape.visible = Math.random() > 0.5;
+        text.visible = Math.random() > 0.5;
       });
 
       var exports = {
@@ -770,135 +1119,148 @@ window.animations = (function() {
 
   });
 
-  var dotted_spiral = (function() {
+var dotted_spiral = (function () {
 
-    var playing = false;
-    var callback = _.identity;
-    var amount = 120, linewidth = min_dimension / (amount * 2), resolution = 4;
-    var magnitude = min_dimension / 2;
+  var playing = false;
+  var callback = _.identity;
+  var amount = 120,
+    linewidth = min_dimension / (amount * 2),
+    resolution = 4;
+  var magnitude = min_dimension / 2;
 
-    var lines = _.map(_.range(amount), function(i) {
+  var lines = _.map(_.range(amount), function (i) {
 
-      var pct = i / amount;
-      var r = magnitude * pct;
-      var theta = pct * Math.PI * resolution;
+    var pct = i / amount;
+    var r = magnitude * pct;
+    var theta = pct * Math.PI * resolution;
 
-      var x1 = r * Math.cos(theta);
-      var y1 = r * Math.sin(theta);
+    var x1 = r * Math.cos(theta);
+    var y1 = r * Math.sin(theta);
 
-      pct = (i + 0.25) / amount;
-      r = magnitude * pct;
-      theta = pct * Math.PI * resolution;
+    pct = (i + 0.25) / amount;
+    r = magnitude * pct;
+    theta = pct * Math.PI * resolution;
 
-      var x2 = r * Math.cos(theta);
-      var y2 = r * Math.sin(theta);
+    var x2 = r * Math.cos(theta);
+    var y2 = r * Math.sin(theta);
 
-      var line = two.makeLine(x1, y1, x2, y2);
-      line.stroke = colors.black;
-      line.linewidth = (1 - Math.sqrt(1 - pct)) * linewidth;
-      line.cap = line.join = 'round';
+    var line = two.makeLine(x1, y1, x2, y2);
+    line.stroke = colors.black;
+    line.linewidth = (1 - Math.sqrt(1 - pct)) * linewidth;
+    line.cap = line.join = 'round';
 
-      return line;
+    return line;
 
+  });
+
+  var updateLinewidth = function (line, i) {
+    var pct = i / amount;
+    line.linewidth = (Math.sqrt(1 - pct)) * linewidth;
+  };
+
+  lines.reverse();
+
+  var group = two.makeGroup(lines);
+  group.translation.set(center.x, center.y);
+
+  var start = function (onComplete, silent) {
+    _in.start();
+    if (!silent && exports.sound) {
+      exports.sound.stop().play();
+    }
+    if (_.isFunction(onComplete)) {
+      callback = onComplete
+    }
+  };
+
+  start.onComplete = reset;
+
+  var update = function () {
+    group.stroke = colors.black;
+  };
+  var resize = function () {
+    group.translation.set(center.x, center.y);
+    linewidth = min_dimension / amount;
+    _.each(lines, updateLinewidth);
+  };
+
+  var i, t, index;
+  var _in = new TWEEN.Tween(group)
+    .onStart(function () {
+      playing = true;
+    })
+    .easing(Easing.Circular.In)
+    .to({
+      rotation: Math.PI / 8,
+      scale: 8
+    }, duration * 2)
+    .onUpdate(function (u) {
+      t = Math.min(map(u, 0, 0.25, 0, 1), 1);
+      index = Math.floor(t * (amount));
+      for (i = 0; i < index; i++) {
+        lines[i].visible = true;
+      }
+    })
+    .onComplete(function () {
+      start.onComplete();
+      callback();
     });
 
-    var updateLinewidth = function(line, i) {
-      var pct = i / amount;
-      line.linewidth = (Math.sqrt(1 - pct)) * linewidth;
-    };
+  var resetLine = function (l) {
+    l.visible = false;
+  };
 
-    lines.reverse();
+  function reset() {
 
-    var group = two.makeGroup(lines);
-    group.translation.set(center.x, center.y);
+    _.each(lines, resetLine);
 
-    var start = function(onComplete, silent) {
-      _in.start();
-      if (!silent && exports.sound) {
-        exports.sound.stop().play();
-      }
-      if (_.isFunction(onComplete)) {
-        callback = onComplete
-      }
-    };
+    group.rotation = Math.random() * TWO_PI;
+    group.scale = 1;
 
-    start.onComplete = reset;
+    _in.to({
+      rotation: group.rotation + Math.PI / 8,
+      scale: Math.random() * 2 + 10
+    }, duration * 2).stop();
 
-    var update = function() {
-      group.stroke = colors.black;
-    };
-    var resize = function() {
-      group.translation.set(center.x, center.y);
-      linewidth = min_dimension / amount;
-      _.each(lines, updateLinewidth);
-    };
+    playing = false;
 
-    var i, t, index;
-    var _in = new TWEEN.Tween(group)
-      .onStart(function() {
-        playing = true;
-      })
-      .easing(Easing.Circular.In)
-      .to({ rotation: Math.PI / 8, scale: 8 }, duration * 2)
-      .onUpdate(function(u) {
-        t = Math.min(map(u, 0, 0.25, 0, 1), 1);
-        index = Math.floor(t * (amount));
-        for (i = 0; i < index; i++) {
-          lines[i].visible = true;
-        }
-      })
-      .onComplete(function() {
-        start.onComplete();
-        callback();
-      });
+  }
 
-    var resetLine = function(l) {
-      l.visible = false;
-    };
+  reset();
 
-    function reset() {
+  var exports = {
+    start: start,
+    update: update,
+    clear: reset,
+    resize: resize,
+    playing: function () {
+      return playing;
+    },
+    hash: '0,9',
+    filename: 'dotted-spiral'
+  };
 
-      _.each(lines, resetLine);
+  monome[exports.hash] = exports;
 
-      group.rotation = Math.random() * TWO_PI;
-      group.scale = 1;
+  return exports;
 
-      _in.to({ rotation: group.rotation + Math.PI / 8, scale: Math.random() * 2 + 10 }, duration * 2).stop();
+})();
 
-      playing = false;
 
-    }
-
-    reset();
-
-    var exports = {
-      start: start,
-      update: update,
-      clear: reset,
-      resize: resize,
-      playing: function() { return playing; },
-      hash: '0,9',
-      filename: 'dotted-spiral'
-    };
-
-    monome[exports.hash] = exports;
-
-    return exports;
-
-  })();
   var suspension = (function() {
 
     var playing = false;
     var callback = _.identity;
-    var amount = 16, r1 = min_dimension * 12 / 900, r2 = min_dimension * 20 / 900, theta, deviation, distance = height;
+    var amount = 16,
+    r1 = min_dimension * 12 / 900,
+    r2 = min_dimension * 20 / 900,
+    theta, deviation, distance = height;
 
     var destinations = [];
-    var circles = _.map(_.range(amount), function(i) {
+    var circles = _.map(_.range(amount), function (i) {
       var r = Math.round(map(Math.random(), 0, 1, r1, r2));
       var circle = two.makeCircle(0, 0, r);
-      // circle.fill = colors.black;
-      var texture = new Two.Texture('./img/screen/bg.jpg')
-      circle.fill = texture;
+      circle.fill = colors.white;
       circle.noStroke();
       destinations.push(new Two.Vector());
       return circle;
@@ -924,9 +1286,7 @@ window.animations = (function() {
     start.onComplete = reset;
 
     var update = function() {
-      var texture = new Two.Texture('./img/screen/bg.jpg')
-      group.fill = texture;
-      // group.fill = colors.white;
+      group.fill = colors.white;
     };
     var resize = function() {
       group.translation.set(center.x, center.y);
@@ -1005,15 +1365,33 @@ window.animations = (function() {
 
     var playing = false;
     var callback = _.identity;
-    var amount = 32, r1 = min_dimension * 12 / 900,
-      r2 = min_dimension * 20 / 900, theta, deviation, distance = width;
-
+    var amount = 15, r1 = min_dimension * 30 / 900,
+      r2 = min_dimension * 40 / 900, theta, deviation, distance = width;
+	
+	var images = [4, 6, 7];
+	var imCount = 0;
+	
     var destinations = [];
     var circles = _.map(_.range(amount), function(i) {
       var r = Math.round(map(Math.random(), 0, 1, r1, r2));
       var circle = two.makeCircle(0, 0, r);
       circle.property = PROPERTIES[Math.floor(Math.random() * PROPERTIES.length)];
-      circle.fill = colors[circle.property];
+      if(!isSafari && !isMobile){
+      	var cirTexture = new Two.Texture('./img/screen/concert.png')
+      cirTexture.repeat = 'repeat';
+      cirTexture.scale= 0.2;
+      if(imCount < (images.length-1)){
+      	imCount++;
+      }else{
+      	imCount=0;
+      }
+      //circle.fill = colors[circle.property];
+      circle.fill = cirTexture;
+      }
+      else{
+      	circle.fill = colors[circle.property];
+      }
+      
       circle.noStroke();
       destinations.push(new Two.Vector());
       return circle;
@@ -1164,11 +1542,14 @@ window.animations = (function() {
     var timer = two.makeCurve(points, true);
     // timer.stroke = colors.highlight;
     timer.noStroke()
-    timer.cap = 'butt';
-    timer.linewidth = min_dimension / 10;
-    var texture = new Two.Texture('./img/screen/bg.jpg')
-    timer.fill = texture
-    timer.noFill();
+    // timer.cap = 'butt';
+    // timer.linewidth = min_dimension / 10;
+    // timer.noFill();
+    timerTexture = logoTexture[2]
+    timerTexture.scale = 1.1
+    timerTexture._offset.x = -20
+    timer.fill = timerTexture
+    timer.reapeat = false
 
     timer.translation.set(center.x, center.y);
 
@@ -1194,7 +1575,9 @@ window.animations = (function() {
     };
 
     var update = function() {
-      timer.stroke = colors.highlight;
+      timerTexture = logoTexture[2]
+      timerTexture.scale = 1.1
+      timer.fill = timerTexture
     };
     var resize = function() {
       timer.translation.set(center.x, center.y);
@@ -1276,7 +1659,17 @@ window.animations = (function() {
 
     var radius = min_dimension * 0.25;
     var circle = two.makeCircle(0, 0, radius);
-    circle.noStroke().fill = colors.accent;
+    if(!isSafari && !isMobile){
+    	var circleTexture = new Two.Texture('./img/screen/concert.png')
+    circleTexture.scale = 0.65;
+    circleTexture.repeat = 'repeat';
+    circle.fill = circleTexture;
+    circle.noStroke();
+    }
+    else{
+    	circle.noStroke().fill = colors.accent;
+    }
+    
 
     var start = function(onComplete, silent) {
       playing = true;
@@ -1296,7 +1689,7 @@ window.animations = (function() {
       circle.fill = colors.accent;
     };
     var resize = function() {
-      radius = min_dimension * 0.25;
+      radius = min_dimension * 0.25; 
     };
 
     circle.destination = { y: center.y };
@@ -1364,31 +1757,59 @@ window.animations = (function() {
     var amount = 25, last = amount - 1;
     var radius = min_dimension * 0.33;
     var distance = height / 6;
+    
+    var pointsArrayA = [];    
+    var theta1 = Math.PI * 3;
+    var x1 = radius * Math.cos(theta1);
+    var y1 = radius * Math.sin(theta1);
+    pointsArrayA.push(new Two.Anchor(x1, y1, 0, 0, 0, 0, Two.Commands.move));
 
     var points = _.map(_.range(amount), function(i) {
       var pct = i / last;
       var theta = pct * Math.PI;
       var x = radius * Math.cos(theta);
       var y = radius * Math.sin(theta);
-      return new Two.Anchor(x, y);
+      pointsArrayA.push(new Two.Anchor(x, y, 0,0, 0, 0, Two.Commands.line));
+        return true;
     });
 
-    var a = two.makePolygon(points);
-    a.origin = new Two.Vector().copy(a.translation);
+    /*var a = two.makePolygon(points);
+    a.origin = new Two.Vector().copy(a.translation);*/
+   
+   
+   var a = new Two.Path(pointsArrayA, true, false, true);
+   a.origin = new Two.Vector().copy(a.translation);
+   two.add(a);
+   
+    var pointsArrayB = [];    
+    var theta2 = Math.PI * 3;
+    var x2 = radius * Math.cos(theta2);
+    var y2 = radius * Math.sin(theta2);
+    pointsArrayB.push(new Two.Anchor(x2, y2, 0, 0, 0, 0, Two.Commands.move));
 
     points = _.map(_.range(amount), function(i) {
       var pct = i / last;
       var theta = pct * Math.PI + Math.PI;
       var x = radius * Math.cos(theta);
       var y = radius * Math.sin(theta);
-      return new Two.Anchor(x, y);
+      pointsArrayB.push(new Two.Anchor(x, y, 0,0, 0, 0, Two.Commands.line));
+        return true;
     });
 
-    var b = two.makePolygon(points);
-    b.origin = new Two.Vector().copy(b.translation);
+    /*var b = two.makePolygon(points);
+    b.origin = new Two.Vector().copy(b.translation);*/
+   
+   var b = new Two.Path(pointsArrayB, true, false, true);
+   b.origin = new Two.Vector().copy(b.translation);
+   two.add(b);
 
     var shape = two.makeGroup(a, b);
-    shape.fill = shape.stroke = colors.foreground;
+    var texture = BGTexture
+    texture.repeat = 'repeat';
+    texture.scale= 1;
+    shape.fill = texture;
+    shape.noStroke();
+    
     shape.translation.set(center.x, center.y);
 
     var options = { ending: 0, beginning: 0 };
@@ -1407,7 +1828,11 @@ window.animations = (function() {
     start.onComplete = reset;
 
     var update = function() {
-      shape.fill = shape.stroke = colors.foreground;
+      var texture = BGTexture
+      texture.repeat = 'repeat';
+      texture.scale = 1;
+      shape.fill = texture;
+      shape.noStroke();
     };
 
     var resize = function() {
@@ -1432,8 +1857,8 @@ window.animations = (function() {
       .easing(Easing.Circular.Out)
       .delay(duration * 0.5)
       .onUpdate(function(t) {
-        a.translation.y = ease(a.translation.y, a.origin.y + distance, 0.3);
-        b.translation.y = ease(b.translation.y, b.origin.y - distance, 0.3);
+       a.translation.y = ease(a.translation.y, a.origin.y + distance, 0.3);
+       b.translation.y = ease(b.translation.y, b.origin.y - distance, 0.3);
         shape.opacity = 1 - t;
       })
       .onComplete(function() {
@@ -1447,6 +1872,7 @@ window.animations = (function() {
       options.ending = options.beginning = 0;
       shape.visible = false;
       shape.rotation = Math.random() * TWO_PI;
+      //Cannot read property 'x' of undefined
       a.translation.copy(a.origin);
       b.translation.copy(b.origin);
       shape.opacity = 1;
@@ -1483,28 +1909,28 @@ window.animations = (function() {
 
     var destinations = [];
     var points = [];
+    points.push(new Two.Anchor(100, 100, 0, 0, 0, 0, Two.Commands.move));
     _.each(_.range(amount), function(i) {
       var pct = i / (amount - 1);
       var theta = pct * TWO_PI;
       var x = radius * Math.cos(theta);
       var y = radius * Math.sin(theta);
       destinations.push({ x: x, y: y });
-      points.push(new Two.Anchor(x, y));
+      points.push(new Two.Anchor(x, y, 0, 0, 0, 0, Two.Commands.line));
     });
-
-    var moon = two.makePolygon(points);
+        
+   // var moon = two.makePolygon(points);
+    
+    var moon = new Two.Path(points, true, false, true);
     moon.translation.set(center.x, center.y);
-    moon.fill = colors.foreground;
-    // var moon = new Two.Path(points, true, false, true);
-    // moon.translation.set(center.x, center.y);
-    // var moonTexture = new Two.Texture('./img/screen/concert.png')
-
-    // moonTexture.repeat = 'repeat';
-    // moonTexture.scale = 0.65;
-    // moon.fill = moonTexture;
-
-    moon.noStroke();
-
+    
+    
+    var moonTexture = BGTexture
+    moonTexture.repeat = 'repeat';
+    moonTexture.scale = 0.61; 
+    moon.fill = moonTexture;
+   
+    moon.noStroke();    
     two.add(moon);
 
     var options = { ending: 0, beginning: 0 };
@@ -1523,7 +1949,12 @@ window.animations = (function() {
     start.onComplete = reset;
 
     var update = function() {
-      moon.fill = colors.foreground;
+      var moonTexture = BGTexture
+      moonTexture.repeat = 'repeat';
+      moonTexture.scale = 0.61;
+      moon.fill = moonTexture;
+
+      moon.noStroke();
     };
     var resize = function() {
       radius = min_dimension * 0.33;
@@ -1589,6 +2020,7 @@ window.animations = (function() {
       hash: '0,2',
       filename: 'moon'
     };
+
     monome[exports.hash] = exports;
 
     return exports;
@@ -1597,7 +2029,7 @@ window.animations = (function() {
 
   var strike = (function() {
 
-    var playing = false;
+        var playing = false;
     var callback = _.identity;
 
     var amount = 32;
@@ -1606,7 +2038,7 @@ window.animations = (function() {
     var points = _.map(_.range(amount), function(i) {
       return new Two.Anchor();
     });
-    var line = two.makePolygon(points, true);
+    var line = two.makePath(points,true);
     line.noFill().stroke = colors.black;
     line.translation.set(center.x, center.y);
     line.cap = 'round';
@@ -1711,27 +2143,37 @@ window.animations = (function() {
 
   var zigzag = (function() {
 
-    var playing = false;
+  /*  var playing = false;
     var callback = _.identity;
 
     var amount = 120, w = width / 16, phi = 6, h = height * 0.66;
     var offset = Math.PI * 0.5;
+    
+    var pointsArray = [];
+    var theta1 = TWO_PI * phi * 0 + offset;
+    var x1 = w * Math.sin(theta1);
+    var y1 = map(0, 0, 1, - h / 2, h / 2);
+    pointsArray.push(new Two.Anchor(x1, y1, 0, 0, 0, 0, Two.Commands.move));
 
     var points = _.map(_.range(amount), function(i) {
       var pct = i / amount;
       var theta = TWO_PI * phi * pct + offset;
       var x = w * Math.sin(theta);
       var y = map(pct, 0, 1, - h / 2, h / 2);
-      return new Two.Anchor(x, y);
+      pointsArray.push(new Two.Anchor(x, y, 0, 0, 0, 0, Two.Commands.line));
+      return true;
     });
 
-    var zigzag = two.makePolygon(points, true);
+    //var zigzag = two.makePolygon(points, true);
+    var zigzag = new Two.Path(pointsArray, false, false, true);
+    
     zigzag.stroke = colors.black;
     zigzag.linewidth = min_dimension / 30;
     zigzag.noFill();
     zigzag.join = 'miter';
     zigzag.miter = 4;
     zigzag.cap = 'butt';
+    two.add(zigzag);
 
     var start = function(onComplete, silent) {
       zigzag.visible = true;
@@ -1788,7 +2230,7 @@ window.animations = (function() {
       } else if (index > 2) {
         phi = 4;
       } else if (index > 1) {
-        phi = 2
+        phi = 2;
       } else {
         phi = 1;
       }
@@ -1799,7 +2241,7 @@ window.animations = (function() {
       zigzag.beginning = zigzag.ending = 0;
 
       for (i = 0; i < amount; i++) {
-        v = points[i];
+        v = pointsArray[i];
         pct = i / amount;
         theta = Math.abs((((2 * (pct * TWO_PI * phi + offset) / Math.PI) - 1) % 4) - 2) - 1;
         x = theta * w / 2;
@@ -1811,6 +2253,112 @@ window.animations = (function() {
       _in.stop();
       _out.stop();
 
+    }
+
+    reset();*/
+    var playing = false;
+    var callback = _.identity;
+    var amount = 42, half = amount / 2;
+    var radius = min_dimension * 0.33;
+
+    var destinations = [];
+    var points = [];
+    points.push(new Two.Anchor(100, 100, 0, 0, 0, 0, Two.Commands.move));
+    _.each(_.range(amount), function(i) {
+      var pct = i / (amount - 1);
+      var theta = pct * TWO_PI;
+      var x = radius * Math.cos(theta);
+      var y = radius * Math.sin(theta);
+      destinations.push({ x: x, y: y });
+      points.push(new Two.Anchor(x, y, 0, 0, 0, 0, Two.Commands.line));
+    });
+        
+   // var moon = two.makePolygon(points);
+    
+    var moon = new Two.Path(points, true, false, true);
+    moon.translation.set(center.x, center.y);
+    if(!isSafari && !isMobile){
+    	 var moonTexture = new Two.Texture('./img/screen/concert.png')
+    moonTexture.repeat = 'repeat';
+    moonTexture.scale = 0.65; 
+    moon.fill = moonTexture;
+    }
+    else{
+    	moon.fill = colors.foreground;
+    }
+   
+    moon.noStroke();    
+    two.add(moon);
+
+    var options = { ending: 0, beginning: 0 };
+
+    var start = function(onComplete, silent) {
+      moon.visible = true;
+      _in.start();
+      if (!silent && exports.sound) {
+        exports.sound.stop().play();
+      }
+      if (_.isFunction(onComplete)) {
+        callback = onComplete;
+      }
+    };
+
+    start.onComplete = reset;
+
+    var update = function() {
+      moon.fill = colors.foreground;
+    };
+    var resize = function() {
+      radius = min_dimension * 0.33;
+      moon.translation.set(center.x, center.y);
+    };
+
+    var i, t, v, d, x, y, pct, theta;
+    var _in = new TWEEN.Tween(options)
+      .to({ ending: 1.0 }, duration / 2)
+      .easing(Easing.Sinusoidal.Out)
+      .onUpdate(function(t) {
+        for (i = half; i < amount; i++) {
+          points[i].y = lerp(points[i].y, destinations[i].y, t);
+        }
+      })
+      .onStart(function() {
+        playing = true;
+      })
+      .onComplete(function() {
+        _out.start();
+      });
+
+    var _out = new TWEEN.Tween(options)
+      .to({ beginning: 1.0 }, duration / 2)
+      .easing(Easing.Sinusoidal.Out)
+      .onUpdate(function(t) {
+        for (i = 0; i < half; i++) {
+          points[i].y = lerp(points[i].y, negate(destinations[i].y), t);
+        }
+      })
+      .onComplete(function() {
+        start.onComplete();
+        callback();
+      });
+
+    function reset() {
+      moon.visible = false;
+      moon.rotation = Math.random() * TWO_PI;
+      options.beginning = options.ending = 0;
+      for (i = 0; i < amount; i++) {
+        v = points[i];
+        pct = i / (amount - 1);
+        theta = pct * TWO_PI;
+        x = radius * Math.cos(theta);
+        y = radius * Math.sin(theta);
+        destinations[i].x = x;
+        destinations[i].y = y;
+        v.set(x, Math.abs(y));
+      }
+      playing = false;
+      _in.stop();
+      _out.stop();
     }
 
     reset();
@@ -1833,25 +2381,34 @@ window.animations = (function() {
 
   var squiggle = (function() {
 
-    var playing = false;
+ /*   var playing = false;
     var callback = _.identity;
     var amount = 200, w = center.x, phi = 6, h = height * 0.33;
     var offset = Math.PI * 0.5;
-
+	
+	var pointsArray = [];
+	var theta1 = TWO_PI * phi * 3 + offset;
+      var x1= map(pct, 0, 1, - w / 2, w / 2);
+      var y1 = h * Math.sin(theta1);
+    pointsArray.push(new Two.Anchor(x1, y1, 0, 0, 0, 0, Two.Commands.move));
+	
     var points = _.map(_.range(amount), function(i) {
       var pct = i / amount;
       var theta = TWO_PI * phi * pct + offset;
       var x = map(pct, 0, 1, - w / 2, w / 2);
       var y = h * Math.sin(theta);
-      return new Two.Anchor(x, y);
+      pointsArray.push(new Two.Anchor(x, y, 0, 0, 0, 0, Two.Commands.line));
+      return true;
     });
 
-    var squiggle = two.makePolygon(points, true);
+    //var squiggle = two.makePolygon(points, true);
+    var squiggle = new Two.Path(pointsArray, false, true, true);
     squiggle.translation.set(center.x, center.y);
     squiggle.stroke = colors.accent;
     squiggle.linewidth = min_dimension / 40;
     squiggle.cap = squiggle.join = 'round';
     squiggle.noFill();
+    two.add(squiggle);
 
     // points = squiggle.vertices;
 
@@ -1904,7 +2461,7 @@ window.animations = (function() {
       squiggle.rotation = Math.random() > 0.5 ? Math.PI : 0;
       squiggle.ending = squiggle.beginning = 0;
       for (i = 0; i < amount; i++) {
-        v = points[i];
+        v = pointsArray[i];
         pct = i / amount;
         theta = TWO_PI * phi * pct + offset;
         x = map(pct, 0, 1, - w / 2, w / 2);
@@ -1914,6 +2471,104 @@ window.animations = (function() {
       playing = false;
       _in.stop();
       _out.stop();
+    }
+
+    reset();*/
+    var playing = false;
+    var callback = _.identity;
+    var amount = 12, r1 = height * 20 / 900, r2 = height * 40 / 900;
+
+    var longest = 0, index;
+
+    var circles = _.map(_.range(amount), function(i) {
+      var r = Math.round(map(Math.random(), 0, 1, r1, r2));
+      var delay = Math.random() * duration * 0.5;
+      var circle = two.makeCircle(0, 0, r);
+      circle.key = colors.getRandomKey();
+      circle.stroke = colors[circle.key];
+      var texture = new Two.Texture('./img/screen/concert.png')
+      texture.repeat = 'repeat';
+      circle.scale= 0.125;
+      circle.fill = texture;
+      circle.__linewidth = Math.random() * 20 + 40;
+      circle.tween = new TWEEN.Tween(circle)
+        .to({ scale: 1, linewidth: 0 }, duration * 0.2)
+        .easing(Easing.Sinusoidal.Out)
+        .delay(delay)
+        .onComplete(function() {
+          circle.visible = false;
+        });
+
+      if (longest < delay) {
+        longest = delay;
+        index = i;
+      }
+
+      return circle;
+
+    });
+
+    circles[index].tween
+      .onComplete(function() {
+        circles[index].visible = false;
+        start.onComplete();
+        callback();
+      });
+
+
+    var group = two.makeGroup(circles);
+    group.translation.set(center.x, center.y);
+
+    var i, c;
+    var start = function(onComplete, silent) {
+      playing = true;
+      for (i = 0; i < amount; i++) {
+        c = circles[i];
+        c.visible = true;
+        c.tween.start();
+      }
+      if (!silent && exports.sound) {
+        exports.sound.stop().play();
+      }
+      if (_.isFunction(onComplete)) {
+        callback = onComplete;
+      }
+    }
+
+    start.onComplete = reset;
+
+    var update = function() {
+      for (i = 0; i < amount; i++) {
+        circles[i].stroke = colors[circles[i].key];
+      }
+    };
+    var resize = function() {
+      group.translation.set(center.x, center.y);
+    };
+
+    var theta, x, y;
+    function reset() {
+
+      for (i = 0; i < amount; i++) {
+
+        c = circles[i];
+
+        theta = TWO_PI * Math.random();
+
+        x = Math.random() * center.y * Math.cos(theta);
+        y = Math.random() * center.y * Math.sin(theta);
+
+        c.translation.set(x, y);
+        c.visible = false;
+        c.scale = 0;
+        c.linewidth = c.__linewidth;
+
+        c.tween.stop();
+
+      }
+
+      playing = false;
+
     }
 
     reset();
@@ -1950,15 +2605,32 @@ window.animations = (function() {
       var theta = pct * TWO_PI;
       var x = radius * Math.cos(theta);
       var y = radius * Math.sin(theta);
-
-      var circle = two.makeCircle(radius, 0, bubbleRadius);
+/*if(!isSafari && !isMobile){
+      var circle = two.makeCircle(radius, 0, bubbleRadius + 10);
+     }
+     else{
+     	var circle = two.makeCircle(radius, 0, bubbleRadius);
+     }*/
+    var circle = two.makeCircle(radius, 0, bubbleRadius);
       circle.theta = 0;
       circle.destination = theta;
+      
       return circle;
 
     });
 
     var shape = two.makeGroup(circles);
+  /*  if(!isSafari && !isMobile){
+    	var cirTexture = new Two.Texture("./images/kimbra1/7.jpg");
+    cirTexture.scale = 0.5;
+    cirTexture.repeat = 'repeat';
+    shape.fill =cirTexture;
+    shape.noStroke();
+    }
+    else{
+    	
+    }*/
+    
     shape.noStroke().fill = colors.black;
     shape.translation.set(center.x, center.y);
 
@@ -2101,8 +2773,13 @@ window.animations = (function() {
       var theta = pct * TWO_PI;
       var x = radius * Math.cos(theta);
       var y = radius * Math.sin(theta);
-
-      var circle = makeTriangle(radius, 0, bubbleRadius);
+/*if(!isSafari && !isMobile){
+      var circle = two.makeRectangle(x-50, y-50, radius - 200, bubbleRadius +100);    
+      }
+      else{
+      	
+      }  */
+      var circle = two.makePolygon(radius, 0, bubbleRadius);
       circle.theta = 0;
       circle.destination = theta;
       return circle;
@@ -2110,7 +2787,16 @@ window.animations = (function() {
     });
 
     var shape = two.makeGroup(circles);
-    shape.noStroke().fill = colors.white;
+   /* if(!isSafari && !isMobile){
+    	var shTexture = new Two.Texture("./images/kimbra1/4.jpg");
+    shTexture.scale = 0.4;
+    shTexture.repeat = 'repeat';
+    shape.noStroke().fill = shTexture;
+    }
+    else{
+    	
+    }*/
+shape.noStroke().fill = colors.white;
     shape.translation.set(center.x, center.y);
 
     var start = function(onComplete, silent) {
@@ -2248,13 +2934,27 @@ window.animations = (function() {
     var startAngle = 0;
     var endAngle = TWO_PI;
     var drift = Math.random() * TWO_PI;
+    
+    var pointsArray = [];
+    pointsArray.push(new Two.Anchor(0, 0, 0, 0, 0, 0, Two.Commands.move));
 
     var points = _.map(_.range(amount), function(i) {
-      return new Two.Anchor();
+    	pointsArray.push(new Two.Anchor(0, 0, 0, 0, 0, 0, Two.Commands.move));
+      return true;
     });
 
-    var shape = two.makePolygon(points);
-    shape.fill = colors.highlight;
+ 	var r1 = 300, r2 = 250;
+    var theta = TWO_PI * 3;
+    var x = r1 * Math.cos(theta);
+    var y = r1 * Math.sin(theta);
+          
+    //var shape = two.makePolygon(points);
+    var shape = two.makeCircle(x, y, r2);
+    var shapTexture = new Two.Texture('./img/screen/concert.png')
+    shapTexture.scale =  0.8;
+    shapTexture.repeat = 'repeat';
+    shape.fill = shapTexture;
+   
     shape.noStroke();
     shape.translation.set(center.x, center.y);
 
@@ -2277,7 +2977,10 @@ window.animations = (function() {
     start.onComplete = reset;
 
     var update = function() {
-      shape.fill = colors.highlight;
+      var shapTexture = new Two.Texture('./img/screen/concert.png')
+      shapTexture.scale = 0.8;
+      shapTexture.repeat = 'repeat';
+      shape.fill = shapTexture;
     };
     var resize = function() {
       distance = height / 6;
@@ -2301,7 +3004,7 @@ window.animations = (function() {
 
         var pct = Math.min(j / index, 1.0);
         var theta = pct * endAngle + startAngle + center + drift;
-        var p = points[j];
+        var p = pointsArray[j];
         var x = distance * Math.cos(theta);
         var y = distance * Math.sin(theta);
 
@@ -2354,7 +3057,7 @@ window.animations = (function() {
       shape.visible = false;
       shape.rotation = Math.random() * TWO_PI;
       for (i = 0, l = points.length; i < l; i++) {
-        p = points[i];
+        p = pointsArray[i];
         pct = i / amount;
         theta = startAngle;
         x = distance * Math.cos(theta);
@@ -2400,7 +3103,10 @@ window.animations = (function() {
       var circle = two.makeCircle(0, 0, r);
       circle.key = colors.getRandomKey();
       circle.stroke = colors[circle.key];
-      circle.noFill();
+      var texture = PosterTexture
+      texture.repeat = 'repeat';
+      circle.scale= 0.125;
+      circle.fill = texture;
       circle.__linewidth = Math.random() * 20 + 40;
       circle.tween = new TWEEN.Tween(circle)
         .to({ scale: 1, linewidth: 0 }, duration * 0.2)
@@ -2624,9 +3330,10 @@ window.animations = (function() {
 
   var palette, amount, c, r, g, b, k, v;
   var exports = {
-    
-    initializeSound: function() { 
-      exports.updateAudio();
+
+    initializeSound: function() {
+
+      // exports.updateAudio();
       return exports;
 
     },
@@ -2634,7 +3341,6 @@ window.animations = (function() {
     updateAudio: function(callback) {
 
       var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-      var path = window.location.href.match(/localhost/i) ? '/assets/' : '//storage.googleapis.com/cdn.patatap.com/';
       var filetype = '.mp3';
       var list = _.filter(exports.list, function(o) {
         return _.isArray(o.sounds);
@@ -2669,11 +3375,11 @@ window.animations = (function() {
         var sound = o.sounds[current];
         if (!sound) {
           show();
-          sound = new Sound(path + type + '/' + o.filename + filetype, function() {
-            $loaded.update();
-            buffered();
-          });
-          o.sounds.push(sound);
+          // sound = new Sound(path + type + '/' + o.filename + filetype, function() {
+          //   $loaded.update();
+          //   buffered();
+          // });
+          // o.sounds.push(sound);
         }
         o.sound = sound;
       });
@@ -2740,7 +3446,13 @@ function makeTriangle(x, y, radius) {
     new Two.Anchor(radius * Math.cos(t2) + x, radius * Math.sin(t2) + y),
     new Two.Anchor(radius * Math.cos(t3) + x, radius * Math.sin(t3) + y)
   ];
-  var shape = two.makePolygon(points);
+  //var shape = two.makePolygon(points);
+  var shape = new Two.Polygon([
+    new Two.Anchor(100, 100, 0, 0, 0, 0, Two.Commands.move),
+    new Two.Anchor(200, 100, -100, -100, 0, -100, Two.Commands.curve),
+    new Two.Anchor(200, 200, 0, 0, 0, 0, Two.Commands.line),
+    new Two.Anchor(100, 200, 0, 0, 0, 0, Two.Commands.line)
+  ], true, false, true);
   return shape;
 }
 
