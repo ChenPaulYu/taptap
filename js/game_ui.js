@@ -142,7 +142,6 @@ var vm = new Vue({
             if (this.nowOrder+r > 15) break;
           }
         }
-        console.log(this.nowOrder);
         this.$set(this.musicOrder, this.nowOrder, ind);
         this.nowOrder++;
         if (this.nowOrder > 15) break;
@@ -168,7 +167,6 @@ var vm = new Vue({
       //if (this.nowPlayOrder != -1 && this.nowPlayOrder != this.maxOrder-1) 
       if (this.nowOrder > 0) this.stopMusic(this.musicOrder[this.nowOrder-1]);
 
-      console.log("nowMelody:"+this.nowMelody+ ", playOrder:"+this.nowPlayOrder);
       if (this.nowMelody > -1 && this.nowPlayOrder > -1 && this.nowPlayOrder < 15
           && (this.nowPlayOrder - this.nowMelody) < 3) 
         this.bgFixPlay = true;
