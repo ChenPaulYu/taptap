@@ -53,13 +53,17 @@ $(function() {
 
     nowPlayOrder = (nowPlayOrder + 1) % musicOrder.length;
     var ind = musicOrder[nowPlayOrder];
-    if (nowPlayOrder%(maxOrder+1) == maxOrder) {
-      if (musicOrder[nowPlayOrder-1] != -1) stopMusic(musicOrder[nowPlayOrder-1]);
+    if (nowPlayOrder%(maxOrder+1) == 0) {
+      console.log("nowPlay:"+nowPlayOrder);
+      var prev = (nowPlayOrder-1+musicOrder.length)%musicOrder.length;
+      if (musicOrder[prev] != -1) stopMusic(musicOrder[prev]);
       nowMelody = -5;
     }
     if (ind != -1) {
       if (melodyArray.includes(ind)) {
+        console.log(nowPlayOrder+","+nowMelody);
         if ((nowPlayOrder-nowMelody) >= 4 ){
+          console.log("play!");
           nowMelody = nowPlayOrder;
           playMusic(ind);
           
