@@ -780,9 +780,12 @@
     });
 
     $(window).on('load', function(){
+
         // if($('.spinner-preloader-wrap').length){
-        //     $('.spinner-preloader-wrap').fadeOut(500);
+        //     if ($('.spinner-preloader-wrap').attr("id") == "home")
+        //         $('.spinner-preloader-wrap').fadeOut(500);
         // }
+
         if($('.loader__svg').length){
             setTimeout(stopPreloader, 900);
         }
